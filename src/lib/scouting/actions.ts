@@ -78,6 +78,7 @@ export async function createReport(
     .insert({
       player_id: playerId,
       scout_user_id: ctx.userId,
+      assignment_id: String(formData.get("assignmentId") ?? "") || null,
       match_id: matchId,
       position_observed: String(formData.get("positionObserved") ?? "") || null,
       role_observed: String(formData.get("roleObserved") ?? "") || null,
@@ -118,6 +119,15 @@ export async function createReport(
     repeated_sprint: intInRange(formData.get("speed_repeated_sprint"), 1, 10),
     football_speed: intInRange(formData.get("speed_football_speed"), 1, 10),
   });
+
+  // Advance the originating assignment when the report is submitted (§5 M04).
+  const assignmentId = String(formData.get("assignmentId") ?? "");
+  if (assignmentId && intent === "submit") {
+    await supabase
+      .from("scouting_assignments")
+      .update({ status: "submitted" as never })
+      .eq("id", assignmentId);
+  }
 
   revalidatePath("/scout/reports");
   redirect(`/scout/reports/${report.id}`);

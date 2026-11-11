@@ -29,11 +29,22 @@ function RatingRow({ name, label, hint }: { name: string; label: string; hint?: 
   );
 }
 
-export function ReportForm({ players }: { players: { id: string; name: string }[] }) {
+export function ReportForm({
+  players,
+  defaultPlayerId,
+  defaultAssignmentId,
+}: {
+  players: { id: string; name: string }[];
+  defaultPlayerId?: string;
+  defaultAssignmentId?: string;
+}) {
   const [state, action] = useFormState(createReport, EMPTY);
 
   return (
     <form action={action} className="space-y-6">
+      {defaultAssignmentId ? (
+        <input type="hidden" name="assignmentId" value={defaultAssignmentId} />
+      ) : null}
       <FormMessage error={state.error} message={state.message} />
 
       <Card>
@@ -42,6 +53,7 @@ export function ReportForm({ players }: { players: { id: string; name: string }[
           <SelectField
             label="Player"
             name="playerId"
+            defaultValue={defaultPlayerId ?? ""}
             options={[
               { value: "", label: "— Select player —" },
               ...players.map((p) => ({ value: p.id, label: p.name })),

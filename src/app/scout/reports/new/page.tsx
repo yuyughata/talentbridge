@@ -6,7 +6,11 @@ import { listPlayers } from "@/lib/players/queries";
 
 export const metadata = { title: "New report" };
 
-export default async function NewReportPage() {
+export default async function NewReportPage({
+  searchParams,
+}: {
+  searchParams: { playerId?: string; assignmentId?: string };
+}) {
   const ctx = await requireWorkspace("scout");
   const players = await listPlayers({ limit: 100 });
   const options = players.map((p) => ({ id: p.id, name: p.preferred_name || p.display_name }));
@@ -30,7 +34,11 @@ export default async function NewReportPage() {
         }
       />
       <div className="max-w-3xl">
-        <ReportForm players={options} />
+        <ReportForm
+          players={options}
+          defaultPlayerId={searchParams.playerId}
+          defaultAssignmentId={searchParams.assignmentId}
+        />
       </div>
     </WorkspaceShell>
   );

@@ -98,6 +98,7 @@ export const WORKSPACES = {
       { label: "Command Centre", href: "/admin", icon: "gauge" },
       { label: "Verification", href: "/admin/verification", icon: "shield" },
       { label: "Review Queue", href: "/admin/review", icon: "clipboard" },
+      { label: "Assignments", href: "/admin/assignments", icon: "target" },
       { label: "Talent Pool", href: "/admin/talent-pool", icon: "users" },
       { label: "Partnerships", href: "/admin/partnerships", icon: "badge" },
       { label: "Users & Roles", href: "/admin/users", icon: "user" },

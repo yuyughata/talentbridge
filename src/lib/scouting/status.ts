@@ -23,6 +23,18 @@ export const CATEGORY_SHORT: Record<ScorecardCategory, string> = {
   consistency: "CON",
 };
 
+/** Map an assignment_status enum to a status badge kind. */
+export function assignmentBadge(status: string): StatusKind {
+  const map: Record<string, StatusKind> = {
+    open: "draft",
+    in_progress: "under_review",
+    submitted: "submitted",
+    completed: "approved",
+    cancelled: "rejected",
+  };
+  return map[status] ?? "draft";
+}
+
 export const RECOMMENDATION_LABEL: Record<string, string> = {
   monitor: "Monitor",
   reassess: "Reassess",

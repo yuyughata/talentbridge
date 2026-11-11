@@ -117,6 +117,10 @@ These are hypotheses to adjust after observing real behaviour, not guaranteed ou
 4. ~~Reviewer queue (approve / return / reject with comments)~~ — **done**: `/admin/review`
    queue + a reviewer panel on the report view; approval updates history but never auto-verifies
    the player (§9).
-5. Remaining MVP finishing: scouting **assignments** (M04) to drive report creation; wire the
-   dashboard KPI strips to live counts; **audit logging** on sensitive reads/writes (M14);
-   notifications (M13).
+5. ~~Scouting assignments (M04)~~ — **done**: `src/lib/assignments`. TBA staff create assignments
+   (scout + target player/position + objective + fixture + due date) at `/admin/assignments`;
+   scouts see their list at `/scout/assignments`, mark in-progress, and **start a report from an
+   assignment** (the report form prefills the player and stores `assignment_id`; submitting a
+   report advances the assignment).
+6. Remaining MVP finishing: wire the dashboard KPI strips to live counts; **audit logging** on
+   sensitive reads/writes (M14); notifications (M13).
