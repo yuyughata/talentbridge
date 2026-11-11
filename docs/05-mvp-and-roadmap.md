@@ -108,8 +108,15 @@ These are hypotheses to adjust after observing real behaviour, not guaranteed ou
      `/player/profile`; scout / admin / recruiter lists wired to RLS-scoped queries.
    - Restricted PII (DOB, nationality) hidden from non-authorised views (§2); consent capture
      records a lawful basis before any external share (§5 M03).
-3. Scouting assignment + mobile scouting report form writing to `scouting_reports`,
-   `scorecard_ratings`, `speed_subscores`; compute `weighted_score` via `calculateWeightedScore`
-   (M04, M05).
-4. Reviewer queue (approve / return with comments) (M05, §9).
-5. Admin KPI strip queries; audit logging on sensitive reads/writes.
+3. ~~Scouting report form + scorecard (M05)~~ — **done**:
+   - `src/lib/scouting` (queries + actions). `createReport` writes `scouting_reports`,
+     `scorecard_ratings` (with weight snapshots), `speed_subscores` and an optional `matches`
+     row, and stores `weighted_score` from `calculateWeightedScore`.
+   - `/scout/reports` (list), `/scout/reports/new` (seven weighted categories + Speed sub-scores
+     + match context + evidence), `/scout/reports/[id]` (radar + score + evidence).
+4. ~~Reviewer queue (approve / return / reject with comments)~~ — **done**: `/admin/review`
+   queue + a reviewer panel on the report view; approval updates history but never auto-verifies
+   the player (§9).
+5. Remaining MVP finishing: scouting **assignments** (M04) to drive report creation; wire the
+   dashboard KPI strips to live counts; **audit logging** on sensitive reads/writes (M14);
+   notifications (M13).
