@@ -42,7 +42,7 @@ export function AuthShell({
 
       {/* form panel */}
       <section className="flex items-center justify-center px-5 py-12 sm:px-10">
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-sm rounded-2xl border border-navy-100 bg-surface p-8 text-navy shadow-lift sm:p-10">
           <div className="mb-8 lg:hidden">
             <Link href="/">
               <Logo />

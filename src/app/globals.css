@@ -6,7 +6,7 @@
   --color-navy: #102a43;
   --color-teal: #167d8d;
   --color-amber: #e6a23c;
-  --color-canvas: #f6f8fa;
+  --color-canvas: #0a0b0d;
 }
 
 @layer base {
@@ -15,7 +15,7 @@
   }
 
   body {
-    @apply bg-canvas text-navy antialiased;
+    @apply bg-canvas text-white antialiased;
     font-feature-settings: "cv11", "ss01";
   }
 
@@ -26,14 +26,16 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* Headings inherit their colour from context: white on the black page,
+     navy inside white cards (the Card root sets text-navy). */
   h1,
   h2,
   h3 {
-    @apply font-semibold tracking-tight text-navy;
+    @apply font-semibold tracking-tight;
   }
 
   ::selection {
-    background: rgba(22, 125, 141, 0.2);
+    background: rgba(132, 204, 22, 0.28);
   }
 }
 
@@ -49,7 +51,7 @@
 
   /* Eyebrow label above section headings. */
   .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.18em] text-lime-600;
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-lime-400;
   }
 }
 

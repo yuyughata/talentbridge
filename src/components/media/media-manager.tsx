@@ -59,7 +59,7 @@ export function MediaManager({
                     href={m.asset_reference}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs font-medium text-lime-700 hover:text-lime-800"
+                    className="text-xs font-medium text-amber-700 hover:text-amber-800"
                   >
                     Open ↗
                   </a>

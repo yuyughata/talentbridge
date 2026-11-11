@@ -35,7 +35,7 @@ export default async function AcademyDevelopmentPage() {
         <CardBody>
           <ScaffoldNote>
             Individual development plans are managed per player. Open a player from the{" "}
-            <Link href="/academy/squad" className="font-medium text-lime-700 hover:text-lime-800">
+            <Link href="/academy/squad" className="font-medium text-amber-700 hover:text-amber-800">
               squad
             </Link>{" "}
             and use <span className="font-medium">Development → Manage</span>. Age bands below are

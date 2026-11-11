@@ -141,7 +141,7 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
             action={
               <Link
                 href={`/players/${player.id}/development`}
-                className="text-sm font-medium text-lime-700 hover:text-lime-800"
+                className="text-sm font-medium text-amber-700 hover:text-amber-800"
               >
                 Manage →
               </Link>
@@ -179,7 +179,7 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
             action={
               <Link
                 href={`/players/${player.id}/media`}
-                className="text-sm font-medium text-lime-700 hover:text-lime-800"
+                className="text-sm font-medium text-amber-700 hover:text-amber-800"
               >
                 Open →
               </Link>

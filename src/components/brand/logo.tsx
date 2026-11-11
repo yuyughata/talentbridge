@@ -5,7 +5,7 @@ export function Logo({ className, dark = false }: { className?: string; dark?: b
     <span className={cn("inline-flex items-center gap-2.5 font-semibold", className)}>
       <span
         aria-hidden
-        className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-teal-sheen text-sm font-bold text-white shadow-teal-glow"
+        className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-lime-sheen text-sm font-bold text-ink-900 shadow-lime-glow"
       >
         <svg
           viewBox="0 0 24 24"
@@ -22,7 +22,12 @@ export function Logo({ className, dark = false }: { className?: string; dark?: b
         <span className={cn("block text-[15px] font-semibold", dark ? "text-white" : "text-navy")}>
           Talent Bridge
         </span>
-        <span className="mt-0.5 block text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-lime-600">
+        <span
+          className={cn(
+            "mt-0.5 block text-[0.6rem] font-semibold uppercase tracking-[0.22em]",
+            dark ? "text-lime-400" : "text-amber-600",
+          )}
+        >
           Africa
         </span>
       </span>

@@ -18,7 +18,7 @@ export function InviteForm({ organisations }: { organisations: { id: string; nam
       {state.inviteUrl ? (
         <div className="rounded-lg border border-teal-100 bg-teal-50 p-3">
           <p className="text-xs font-medium text-navy-500">Shareable invitation link</p>
-          <code className="mt-1 block break-all text-xs text-lime-700">{state.inviteUrl}</code>
+          <code className="mt-1 block break-all text-xs text-amber-700">{state.inviteUrl}</code>
           <p className="mt-2 text-xs text-navy-400">
             Send this link to the invitee. It expires in 14 days.
           </p>

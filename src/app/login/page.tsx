@@ -22,7 +22,7 @@ export default async function LoginPage({
       footer={
         <>
           New to the platform?{" "}
-          <Link href="/signup" className="font-medium text-lime-700 hover:text-lime-800">
+          <Link href="/signup" className="font-medium text-amber-700 hover:text-amber-800">
             Create an account
           </Link>
         </>

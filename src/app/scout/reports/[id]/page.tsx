@@ -50,7 +50,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
       <div className="mb-4 flex items-center justify-between">
         <Link
           href="/scout/reports"
-          className="text-sm font-medium text-lime-700 hover:text-lime-800"
+          className="text-sm font-medium text-lime-300 hover:text-lime-200"
         >
           ← Reports
         </Link>
@@ -67,7 +67,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-navy-100 px-6 py-5">
           <div>
             <h1 className="text-xl font-semibold text-navy">
-              <Link href={`/players/${report.player_id}`} className="hover:text-lime-800">
+              <Link href={`/players/${report.player_id}`} className="hover:text-amber-700">
                 {report.player_name ?? "Player"}
               </Link>
             </h1>

@@ -74,7 +74,7 @@ const config: Config = {
           500: "#C0392B",
           600: "#A32F23",
         },
-        canvas: "#F6F8FA",
+        canvas: "#0A0B0D",
         surface: "#FFFFFF",
         "surface-muted": "#F1F6F8",
       },
@@ -103,6 +103,7 @@ const config: Config = {
         card: "0 1px 2px rgba(16, 42, 67, 0.05), 0 6px 16px rgba(16, 42, 67, 0.06)",
         lift: "0 12px 32px -8px rgba(16, 42, 67, 0.22)",
         "teal-glow": "0 10px 30px -10px rgba(22, 125, 141, 0.55)",
+        "lime-glow": "0 10px 30px -10px rgba(132, 204, 22, 0.55)",
         "inset-hair": "inset 0 1px 0 0 rgba(255,255,255,0.06)",
       },
       backgroundImage: {
@@ -111,6 +112,7 @@ const config: Config = {
         "ink-depth":
           "radial-gradient(130% 120% at 20% -10%, #15181F 0%, #0A0B0D 45%, #060708 100%)",
         "teal-sheen": "linear-gradient(135deg, #167D8D 0%, #0F5A66 100%)",
+        "lime-sheen": "linear-gradient(135deg, #A3E635 0%, #65A30D 100%)",
         "amber-sheen": "linear-gradient(135deg, #EDB45E 0%, #E6A23C 100%)",
       },
       keyframes: {

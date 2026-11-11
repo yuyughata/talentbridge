@@ -42,7 +42,7 @@ export default async function PlayerMediaPage({ params }: { params: { id: string
       <div className="mb-4">
         <Link
           href={`/players/${player.id}`}
-          className="text-sm font-medium text-lime-700 hover:text-lime-800"
+          className="text-sm font-medium text-lime-300 hover:text-lime-200"
         >
           ← {player.preferred_name || player.display_name}
         </Link>

@@ -93,7 +93,7 @@ export default async function AdminDashboard() {
             action={
               <Link
                 href="/admin/talent-pool"
-                className="text-sm font-medium text-lime-700 hover:text-lime-800"
+                className="text-sm font-medium text-amber-700 hover:text-amber-800"
               >
                 View all
               </Link>

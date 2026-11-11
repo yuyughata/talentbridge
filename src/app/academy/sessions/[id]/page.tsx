@@ -37,7 +37,7 @@ export default async function SessionDetailPage({ params }: { params: { id: stri
       <div className="mb-4">
         <Link
           href="/academy/calendar"
-          className="text-sm font-medium text-lime-700 hover:text-lime-800"
+          className="text-sm font-medium text-lime-300 hover:text-lime-200"
         >
           ← Calendar
         </Link>

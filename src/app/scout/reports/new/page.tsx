@@ -27,7 +27,7 @@ export default async function NewReportPage({
         action={
           <Link
             href="/scout/reports"
-            className="text-sm font-medium text-lime-700 hover:text-lime-800"
+            className="text-sm font-medium text-lime-300 hover:text-lime-200"
           >
             Back to reports
           </Link>
