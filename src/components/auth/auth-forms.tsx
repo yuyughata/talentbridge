@@ -27,7 +27,7 @@ export function SignInForm({ next }: { next?: string }) {
       <div className="flex justify-end">
         <Link
           href="/forgot-password"
-          className="text-sm font-medium text-teal-600 hover:text-teal-700"
+          className="text-sm font-medium text-lime-700 hover:text-lime-800"
         >
           Forgot password?
         </Link>

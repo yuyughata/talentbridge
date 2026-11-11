@@ -22,7 +22,7 @@ export function Logo({ className, dark = false }: { className?: string; dark?: b
         <span className={cn("block text-[15px] font-semibold", dark ? "text-white" : "text-navy")}>
           Talent Bridge
         </span>
-        <span className="mt-0.5 block text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-teal-500">
+        <span className="mt-0.5 block text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-lime-600">
           Africa
         </span>
       </span>

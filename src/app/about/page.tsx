@@ -52,7 +52,7 @@ export default function AboutPage() {
         <PitchLines className="pointer-events-none absolute -right-16 top-1/2 h-[420px] w-[620px] -translate-y-1/2 text-white/[0.06]" />
         <div className="pitch-lines absolute inset-0 opacity-30" />
         <div className="container-page relative py-20 md:py-24">
-          <p className="eyebrow text-teal-300">The approach</p>
+          <p className="eyebrow text-lime-300">The approach</p>
           <h1 className="mt-3 max-w-3xl text-4xl font-semibold tracking-tightest text-white md:text-6xl">
             What Talent Bridge Africa is — and isn&apos;t.
           </h1>
@@ -72,7 +72,7 @@ export default function AboutPage() {
                 id={a.id}
                 className="h-full scroll-mt-24 rounded-xl2 border border-white/10 bg-white/[0.03] p-6"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-500/15 text-teal-300">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-500/15 text-lime-300">
                   <a.icon />
                 </span>
                 <h2 className="mt-5 text-lg font-semibold text-white">{a.title}</h2>
@@ -96,7 +96,7 @@ export default function AboutPage() {
               <Reveal key={row.good} delay={i * 70}>
                 <div className="rounded-xl2 border border-white/10 bg-white/[0.03] p-4">
                   <p className="flex items-start gap-2 text-sm text-white">
-                    <span className="mt-0.5 text-teal-300">✓</span> {row.good}
+                    <span className="mt-0.5 text-lime-300">✓</span> {row.good}
                   </p>
                   <p className="mt-2 flex items-start gap-2 text-sm text-white/40 line-through decoration-risk/50">
                     <span className="mt-0.5 text-risk-500">✕</span> {row.bad}

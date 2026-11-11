@@ -119,7 +119,7 @@ export function WorkspaceShell({
                 aria-current={active ? "page" : undefined}
                 className={
                   active
-                    ? "flex flex-none items-center gap-1.5 rounded-lg bg-teal-50 px-3 py-1.5 text-sm font-semibold text-teal-700"
+                    ? "flex flex-none items-center gap-1.5 rounded-lg bg-teal-50 px-3 py-1.5 text-sm font-semibold text-lime-700"
                     : "flex flex-none items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-navy-500 hover:bg-navy-50"
                 }
               >
@@ -144,11 +144,11 @@ export function WorkspaceShell({
                   aria-current={active ? "page" : undefined}
                   className={
                     active
-                      ? "flex items-center gap-3 rounded-lg bg-teal-50 px-3 py-2 text-sm font-semibold text-teal-700 ring-1 ring-inset ring-teal-100"
+                      ? "flex items-center gap-3 rounded-lg bg-teal-50 px-3 py-2 text-sm font-semibold text-lime-700 ring-1 ring-inset ring-teal-100"
                       : "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-navy-500 transition-colors hover:bg-navy-50 hover:text-navy"
                   }
                 >
-                  <Icon className={active ? "h-4 w-4 text-teal-600" : "h-4 w-4 text-navy-400"} />
+                  <Icon className={active ? "h-4 w-4 text-lime-700" : "h-4 w-4 text-navy-400"} />
                   {item.label}
                 </Link>
               );

@@ -20,7 +20,7 @@ export default async function AcceptInvitePage({
         title="Invitation not found"
         subtitle="This link is invalid or has been removed."
         footer={
-          <Link href="/login" className="font-medium text-teal-600 hover:text-teal-700">
+          <Link href="/login" className="font-medium text-lime-700 hover:text-lime-800">
             Go to sign in
           </Link>
         }
@@ -50,7 +50,7 @@ export default async function AcceptInvitePage({
         title="Invitation unavailable"
         subtitle={`This invitation ${reason}.`}
         footer={
-          <Link href="/login" className="font-medium text-teal-600 hover:text-teal-700">
+          <Link href="/login" className="font-medium text-lime-700 hover:text-lime-800">
             Go to sign in
           </Link>
         }
@@ -68,7 +68,7 @@ export default async function AcceptInvitePage({
       title="Accept your invitation"
       subtitle={`You've been invited to join as ${roleLabel}${where}.`}
       footer={
-        <Link href="/login" className="font-medium text-teal-600 hover:text-teal-700">
+        <Link href="/login" className="font-medium text-lime-700 hover:text-lime-800">
           Already have an account? Sign in
         </Link>
       }

@@ -8,10 +8,10 @@ export const metadata = { title: "Academy overview" };
 
 const WEEK = [
   { day: "Mon", focus: "Recovery / mobility", tone: "bg-navy-50 text-navy-500" },
-  { day: "Tue", focus: "Technical & passing", tone: "bg-teal-50 text-teal-700" },
+  { day: "Tue", focus: "Technical & passing", tone: "bg-teal-50 text-lime-700" },
   { day: "Wed", focus: "Speed / agility", tone: "bg-amber-50 text-amber-700" },
-  { day: "Thu", focus: "Tactical / SSG", tone: "bg-teal-50 text-teal-700" },
-  { day: "Fri", focus: "Position-specific", tone: "bg-teal-50 text-teal-700" },
+  { day: "Thu", focus: "Tactical / SSG", tone: "bg-teal-50 text-lime-700" },
+  { day: "Fri", focus: "Position-specific", tone: "bg-teal-50 text-lime-700" },
   { day: "Sat", focus: "Match", tone: "bg-navy text-white" },
   { day: "Sun", focus: "Rest", tone: "bg-navy-50 text-navy-400" },
 ];

@@ -21,7 +21,7 @@ export function KpiStat({
       <div className="flex items-start justify-between">
         <p className="text-sm font-medium text-navy-500">{label}</p>
         {icon ? (
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-50 text-teal-600">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-50 text-lime-700">
             {icon}
           </span>
         ) : null}
@@ -29,7 +29,7 @@ export function KpiStat({
       <p className="nums mt-2 text-3xl font-semibold tracking-tight text-navy">{value}</p>
       <div className="mt-1 flex items-center gap-2">
         {trend ? (
-          <span className="inline-flex items-center gap-1 text-xs font-medium text-teal-600">
+          <span className="inline-flex items-center gap-1 text-xs font-medium text-lime-700">
             <TrendUpIcon className="h-3.5 w-3.5" /> {trend}
           </span>
         ) : null}

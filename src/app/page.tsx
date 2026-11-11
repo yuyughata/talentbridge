@@ -130,14 +130,14 @@ export default function HomePage() {
 
         <div className="container-page relative grid gap-12 py-24 md:grid-cols-[1.05fr_0.95fr] md:items-center md:py-32">
           <div className="animate-rise-in">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-teal-200">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-lime-200">
               <BallIcon className="h-3.5 w-3.5" /> A talent development operating system ·
               Nigeria-first
             </span>
             {/* Development-led headline, then the scouting idea. */}
             <h1 className="mt-6 text-5xl font-semibold leading-[1.02] tracking-tightest text-white md:text-7xl">
               Develop the talent.
-              <span className="mt-2 block bg-gradient-to-r from-teal-300 to-teal-500 bg-clip-text text-transparent">
+              <span className="mt-2 block bg-gradient-to-r from-lime-300 to-lime-500 bg-clip-text text-transparent">
                 Then scout smarter.
               </span>
             </h1>
@@ -201,7 +201,7 @@ export default function HomePage() {
             {DEV_STEPS.map((s, i) => (
               <Reveal key={s.title} delay={i * 90}>
                 <div className="group h-full rounded-xl2 border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-teal-500/40 hover:bg-white/[0.05]">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-500/15 text-teal-300">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-500/15 text-lime-300">
                     <s.icon />
                   </span>
                   <h3 className="mt-5 text-lg font-semibold text-white">{s.title}</h3>
@@ -226,7 +226,7 @@ export default function HomePage() {
             {PILLARS.map((p, i) => (
               <Reveal key={p.title} delay={i * 90}>
                 <div className="h-full rounded-xl2 border border-white/10 bg-white/[0.03] p-6">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 text-teal-300">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 text-lime-300">
                     <p.icon />
                   </span>
                   <h3 className="mt-5 text-base font-semibold text-white">{p.title}</h3>
@@ -251,7 +251,7 @@ export default function HomePage() {
             </div>
             <Link
               href="/recruiter"
-              className="hidden items-center gap-1 text-sm font-medium text-teal-300 hover:text-teal-200 sm:inline-flex"
+              className="hidden items-center gap-1 text-sm font-medium text-lime-300 hover:text-lime-200 sm:inline-flex"
             >
               See recruiter view <ArrowUpRightIcon className="h-4 w-4" />
             </Link>
@@ -288,7 +288,7 @@ export default function HomePage() {
                       <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-sheen text-white">
                         <w.icon />
                       </span>
-                      <ArrowUpRightIcon className="h-5 w-5 text-white/30 transition-colors group-hover:text-teal-300" />
+                      <ArrowUpRightIcon className="h-5 w-5 text-white/30 transition-colors group-hover:text-lime-300" />
                     </div>
                     <h3 className="mt-5 text-base font-semibold text-white">{w.name}</h3>
                     <p className="mt-1 text-sm leading-relaxed text-white/55">{w.blurb}</p>

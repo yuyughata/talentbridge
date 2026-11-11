@@ -23,7 +23,7 @@ export default async function NewPlayerPage() {
         action={
           <Link
             href="/academy/squad"
-            className="text-sm font-medium text-teal-600 hover:text-teal-700"
+            className="text-sm font-medium text-lime-700 hover:text-lime-800"
           >
             Back to squad
           </Link>
