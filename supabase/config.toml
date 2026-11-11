@@ -1,0 +1,21 @@
+# Supabase local development configuration.
+# Run `supabase start` to launch the local stack, then `supabase db reset`
+# to apply migrations in supabase/migrations and seed from supabase/seed.sql.
+project_id = "talentbridge-africa"
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+port = 54323
+
+[auth]
+enable_signup = true
+# Invitation-first onboarding (§5 M01, §15 external access invite-only).
+[auth.email]
+enable_confirmations = true
+
+[storage]
+# Private buckets for documents/images; signed short-lived URLs (§7).
+enabled = true

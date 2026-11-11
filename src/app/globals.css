@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-navy: #102a43;
+  --color-teal: #167d8d;
+  --color-amber: #e6a23c;
+  --color-canvas: #f7f9fa;
+}
+
+@layer base {
+  body {
+    @apply bg-canvas text-navy antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  /* Tabular numerals for scores and measurements (§4 Typography). */
+  .nums,
+  td.num,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-semibold tracking-tight text-navy;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+}
