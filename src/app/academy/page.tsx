@@ -3,6 +3,7 @@ import { KpiStat } from "@/components/ui/kpi-stat";
 import { PageHeading, ScaffoldNote, WorkspaceShell } from "@/components/workspace/workspace-shell";
 import { UsersIcon, CalendarIcon, TargetIcon } from "@/components/ui/icons";
 import { requireWorkspace } from "@/lib/auth/session";
+import { academyKpis } from "@/lib/dashboard/queries";
 
 export const metadata = { title: "Academy overview" };
 
@@ -18,6 +19,10 @@ const WEEK = [
 
 export default async function AcademyOverview() {
   const ctx = await requireWorkspace("academy");
+  const academy = ctx.memberships.find((m) => m.role === "academy_staff");
+  const kpis = academy
+    ? await academyKpis(academy.organisationId)
+    : { squadSize: 0, sessionsThisWeek: 0, reviewsDue: 0 };
   return (
     <WorkspaceShell
       workspace="academy"
@@ -30,9 +35,14 @@ export default async function AcademyOverview() {
       />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <KpiStat label="Players in squad" value="28" icon={<UsersIcon />} />
-        <KpiStat label="Sessions this week" value="6" icon={<CalendarIcon />} />
-        <KpiStat label="Reviews due" value="4" icon={<TargetIcon />} hint="12-week cycle" />
+        <KpiStat label="Players in squad" value={kpis.squadSize} icon={<UsersIcon />} />
+        <KpiStat label="Sessions this week" value={kpis.sessionsThisWeek} icon={<CalendarIcon />} />
+        <KpiStat
+          label="Reviews due"
+          value={kpis.reviewsDue}
+          icon={<TargetIcon />}
+          hint="12-week cycle"
+        />
       </div>
 
       <div className="mt-6">

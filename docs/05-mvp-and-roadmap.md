@@ -133,5 +133,15 @@ These are hypotheses to adjust after observing real behaviour, not guaranteed ou
    - Academy training: `/academy/calendar` (plan sessions), `/academy/sessions/[id]` (record
      attendance + per-player coaching observations, §5A E), `/academy/development` (age-band
      curriculum reference, §5A A), `/academy/attendance`.
-9. Remaining MVP finishing: wire the dashboard KPI strips to live counts; link training sessions
-   to development goals in the UI; richer progress trend charts (§5A G Release 3).
+9. ~~Dashboard live counts~~ — **done**: `src/lib/dashboard/queries` powers the scout, admin and
+   academy KPI strips with real RLS-scoped counts; admin dashboard tiles now link through.
+10. ~~Verification & document control (M08)~~ — **done**: `src/lib/verification`. `/admin/verification`
+    lets TBA staff add records (identity/age/registration/playing-history), set status, track expiry,
+    and store a private document *pointer* (never the file); a staff-only verification section shows
+    on the player profile. Evidence checks never auto-verify the profile (§9); records are staff-only
+    (RLS, §12).
+11. ~~Reporting & analytics (M12)~~ — **done**: `src/lib/analytics`. `/admin/analytics` shows coverage,
+    report pipeline, position distribution, evidence-backed-report rate (§13 target), average profile
+    completeness, training sessions and recruiter enquiries by status.
+12. Remaining finishing: link training sessions to development goals in the UI; richer progress trend
+    charts (§5A G Release 3); M06 external video ingestion; the pre-pilot RLS test suite (§12).

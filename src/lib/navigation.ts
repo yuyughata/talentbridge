@@ -101,6 +101,7 @@ export const WORKSPACES = {
       { label: "Assignments", href: "/admin/assignments", icon: "target" },
       { label: "Talent Pool", href: "/admin/talent-pool", icon: "users" },
       { label: "Partnerships", href: "/admin/partnerships", icon: "badge" },
+      { label: "Analytics", href: "/admin/analytics", icon: "chart" },
       { label: "Users & Roles", href: "/admin/users", icon: "user" },
       { label: "Audit", href: "/admin/audit", icon: "lock" },
       { label: "Settings", href: "/admin/settings", icon: "bolt" },

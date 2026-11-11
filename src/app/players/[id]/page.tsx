@@ -8,6 +8,8 @@ import { PlayerForm } from "@/components/players/player-form";
 import { ConsentManager } from "@/components/players/consent-manager";
 import { requireUser } from "@/lib/auth/session";
 import { getPlayer, listConsents, listDevelopmentPlans, profileBadge } from "@/lib/players/queries";
+import { listPlayerVerifications } from "@/lib/verification/queries";
+import { verificationBadge, VERIFICATION_TYPE_LABEL } from "@/lib/verification/status";
 import { updatePlayer, setPlayerStatus } from "@/lib/players/actions";
 import { WORKSPACES } from "@/lib/navigation";
 import { ROLE_WORKSPACE } from "@/lib/auth/roles";
@@ -34,9 +36,10 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
   const canEdit = isStaff || isSelf || isAcademyStaff;
   const canViewSensitive = canEdit; // staff / own academy / self (§2)
 
-  const [consents, plans] = await Promise.all([
+  const [consents, plans, verifications] = await Promise.all([
     listConsents(player.id),
     listDevelopmentPlans(player.id),
+    isStaff ? listPlayerVerifications(player.id) : Promise.resolve([]),
   ]);
 
   const initials = (player.preferred_name || player.display_name)
@@ -170,6 +173,43 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
           </CardBody>
         </Card>
       </div>
+
+      {/* Verification (staff only, §5 M08, §12) */}
+      {isStaff ? (
+        <div className="mt-6">
+          <Card>
+            <CardHeader
+              title="Verification"
+              subtitle="Evidence of identity, age and registration (§5 M08)"
+            />
+            <CardBody>
+              {verifications.length === 0 ? (
+                <p className="text-sm text-navy-400">
+                  No verification records. Add them in Verification.
+                </p>
+              ) : (
+                <ul className="divide-y divide-navy-100">
+                  {verifications.map((v) => (
+                    <li key={v.id} className="flex items-center justify-between py-2.5 text-sm">
+                      <div>
+                        <span className="font-medium text-navy">
+                          {VERIFICATION_TYPE_LABEL[v.verification_type] ?? v.verification_type}
+                        </span>
+                        {v.expires_at ? (
+                          <span className="ml-2 text-xs text-navy-400">
+                            expires {new Date(v.expires_at).toLocaleDateString("en-GB")}
+                          </span>
+                        ) : null}
+                      </div>
+                      <StatusBadge status={verificationBadge(v.status)} />
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </CardBody>
+          </Card>
+        </div>
+      ) : null}
 
       {/* Edit */}
       {canEdit ? (

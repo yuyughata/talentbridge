@@ -9,11 +9,14 @@ import { PageHeading, ScaffoldNote, WorkspaceShell } from "@/components/workspac
 import { TargetIcon, ClipboardIcon, WhistleIcon } from "@/components/ui/icons";
 import { DEMO_PLAYERS, DEMO_RADAR } from "@/lib/demo-data";
 import { requireWorkspace } from "@/lib/auth/session";
+import { scoutKpis } from "@/lib/dashboard/queries";
+import Link from "next/link";
 
 export const metadata = { title: "Scout dashboard" };
 
 export default async function ScoutDashboard() {
   const ctx = await requireWorkspace("scout");
+  const kpis = await scoutKpis(ctx.userId);
   const focus = DEMO_PLAYERS[0]!;
 
   return (
@@ -26,16 +29,18 @@ export default async function ScoutDashboard() {
         title="Scout dashboard"
         description="Make field scouting fast, structured and auditable."
         action={
-          <Button size="sm">
-            <ClipboardIcon className="h-4 w-4" /> New report
-          </Button>
+          <Link href="/scout/reports/new">
+            <Button size="sm">
+              <ClipboardIcon className="h-4 w-4" /> New report
+            </Button>
+          </Link>
         }
       />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <KpiStat label="Open assignments" value="5" icon={<TargetIcon />} hint="2 due this week" />
-        <KpiStat label="Reports in draft" value="3" icon={<ClipboardIcon />} />
-        <KpiStat label="Returned for clarification" value="1" icon={<WhistleIcon />} />
+        <KpiStat label="Open assignments" value={kpis.openAssignments} icon={<TargetIcon />} />
+        <KpiStat label="Reports in draft" value={kpis.draftReports} icon={<ClipboardIcon />} />
+        <KpiStat label="Returned for clarification" value={kpis.returned} icon={<WhistleIcon />} />
       </div>
 
       <div className="mt-6 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
