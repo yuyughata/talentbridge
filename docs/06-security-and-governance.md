@@ -50,18 +50,31 @@ product requirements, not afterthoughts.
 - Collect only necessary welfare information; restrict sensitive records; apply retention rules;
   never expose private health/identity information in recruiter-facing profiles.
 
-## RLS test plan (required before pilot)
+## RLS test suite (implemented)
 
-Write integration tests that run as one signed-in user per role against a live Supabase instance
-and assert:
+`supabase/tests/rls.test.sql` seeds fixtures and asserts row visibility for each role by
+impersonating users via `request.jwt.claims` (the mechanism Supabase Auth uses — `auth.uid()` reads
+the `sub` claim). Run it locally against a throwaway Postgres with
+`supabase/tests/run_rls_tests.sh` (no network, no project), or adapt for `supabase test db`.
 
-1. A scout can read their own reports but not another scout's drafts.
-2. An academy coach can read their academy's players but **not** another academy's.
-3. A recruiter with no grant cannot read any player; with an active grant can read only the granted
-   player's **shared** media; with an expired grant loses access.
-4. A guardian can read only their linked child's records.
-5. `verification_records` and `workload_entries` are unreadable to recruiters and other academies.
-6. `audit_logs` cannot be updated or deleted by any non-service role.
+Assertions (A1–A12): anonymous sees no players; a scout sees all players (internal assessment
+network); an academy coach sees only their academy's players; a TBA reviewer sees all; a recruiter
+sees only players they were granted; a player/guardian sees only their own/linked record;
+`verification_records` and `audit_logs` are staff-only; a recruiter sees only **shared/public** media
+of a granted player, not private; a recruiter cannot insert a player; a scout cannot approve their
+own report.
+
+### Bugs this suite caught (and fixed)
+
+- **Scouts had zero player visibility** — `tba_can_view_player` omitted scouts, so the scout
+  workspace would show empty lists. Fixed in `0012_scout_player_access.sql` (adds `tba_is_scout`).
+- **Broken private-helper references** — moving the SECURITY DEFINER helpers to the `private` schema
+  (0010) left two of them calling siblings unqualified under `search_path=public`, which fails the
+  moment a policy evaluates against a real row (it only went unnoticed while tables were empty).
+  Fixed in `0013_fix_private_helper_refs.sql` (schema-qualified calls).
+
+Still to add before pilot: write-path coverage for every table, `workload_entries`/session welfare
+isolation, consent-withdrawal effects on media visibility, and storage-bucket policy tests.
 
 ## Secrets & environment
 
