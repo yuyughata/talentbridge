@@ -36,6 +36,15 @@ const config: Config = {
           900: "#102A43",
           950: "#0A1D30",
         },
+        // Near-black surfaces for the public marketing site (black theme).
+        ink: {
+          DEFAULT: "#0A0B0D",
+          950: "#060708",
+          900: "#0A0B0D",
+          800: "#121419",
+          700: "#1A1D23",
+          600: "#23272E",
+        },
         teal: {
           DEFAULT: "#167D8D",
           50: "#EAF4F5",
@@ -99,6 +108,8 @@ const config: Config = {
       backgroundImage: {
         "navy-depth":
           "radial-gradient(120% 120% at 15% 0%, #1B3350 0%, #102A43 45%, #0A1D30 100%)",
+        "ink-depth":
+          "radial-gradient(130% 120% at 20% -10%, #15181F 0%, #0A0B0D 45%, #060708 100%)",
         "teal-sheen": "linear-gradient(135deg, #167D8D 0%, #0F5A66 100%)",
         "amber-sheen": "linear-gradient(135deg, #EDB45E 0%, #E6A23C 100%)",
       },
