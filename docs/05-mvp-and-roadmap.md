@@ -122,5 +122,16 @@ These are hypotheses to adjust after observing real behaviour, not guaranteed ou
    scouts see their list at `/scout/assignments`, mark in-progress, and **start a report from an
    assignment** (the report form prefills the player and stores `assignment_id`; submitting a
    report advances the assignment).
-6. Remaining MVP finishing: wire the dashboard KPI strips to live counts; **audit logging** on
-   sensitive reads/writes (M14); notifications (M13).
+6. ~~Audit logging (M14)~~ — **done**: `logAudit` helper wired into report review, consent
+   record/withdraw, player status and assignment creation; append-only `/admin/audit` viewer.
+7. ~~Notifications (M13)~~ — **done**: `notifyUser` (service-role, best-effort) on report review
+   and assignment creation; `/notifications` page + header bell with unread badge. Email delivery
+   layers a transactional provider on top of these rows (§7).
+8. ~~Player development & academy training (M07 / §5A)~~ — **done**:
+   - IDPs at `/players/[id]/development`: plans, measurable goals (baseline/target/action/status),
+     and dated 12-week reviews with trends (§5A D/F/G).
+   - Academy training: `/academy/calendar` (plan sessions), `/academy/sessions/[id]` (record
+     attendance + per-player coaching observations, §5A E), `/academy/development` (age-band
+     curriculum reference, §5A A), `/academy/attendance`.
+9. Remaining MVP finishing: wire the dashboard KPI strips to live counts; link training sessions
+   to development goals in the UI; richer progress trend charts (§5A G Release 3).

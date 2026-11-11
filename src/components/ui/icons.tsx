@@ -177,6 +177,15 @@ export function GridIcon(props: IconProps) {
   );
 }
 
+export function BellIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M6 9a6 6 0 0 1 12 0c0 4 1.5 5.5 2 6H4c.5-.5 2-2 2-6z" />
+      <path d="M10 20a2 2 0 0 0 4 0" />
+    </svg>
+  );
+}
+
 export function CheckBadgeIcon(props: IconProps) {
   return (
     <svg {...base(props)}>

@@ -6,6 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 import { getUserContext } from "@/lib/auth/session";
 import { SCORECARD_CATEGORIES, type ScorecardCategory } from "@/lib/scoring/model";
 import { buildRatingSnapshots, calculateWeightedScore } from "@/lib/scoring/calculate";
+import { logAudit } from "@/lib/audit";
+import { notifyUser } from "@/lib/notifications/notify";
 import type { ReportFormState, ReviewState } from "./types";
 
 function intInRange(v: FormDataEntryValue | null, min: number, max: number): number | null {
@@ -170,6 +172,14 @@ export async function reviewReport(
 
   const ctx = await getUserContext();
   const supabase = createClient();
+
+  // Capture the author so we can notify them after the decision.
+  const { data: existing } = await supabase
+    .from("scouting_reports")
+    .select("scout_user_id")
+    .eq("id", reportId)
+    .maybeSingle();
+
   const { error } = await supabase
     .from("scouting_reports")
     .update({
@@ -181,6 +191,19 @@ export async function reviewReport(
     .eq("id", reportId);
 
   if (error) return { error: "Could not record the review. You may not have reviewer permission." };
+
+  await logAudit(`report.${status}`, "scouting_report", reportId, { decision });
+  const authorId = (existing as { scout_user_id?: string } | null)?.scout_user_id;
+  if (authorId) {
+    await notifyUser(
+      authorId,
+      "review",
+      `Your report was ${status.replace("_", " ")}`,
+      comment || null,
+      `/scout/reports/${reportId}`,
+    );
+  }
+
   revalidatePath("/admin/review");
   revalidatePath(`/scout/reports/${reportId}`);
   return { message: `Report ${status.replace("_", " ")}.` };

@@ -2,9 +2,11 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Logo } from "@/components/brand/logo";
 import { signOut } from "@/lib/auth/actions";
+import { unreadNotificationCount } from "@/lib/notifications/queries";
 import { WORKSPACES, type IconKey, type WorkspaceNav } from "@/lib/navigation";
 import {
   BallIcon,
+  BellIcon,
   BoltIcon,
   CalendarIcon,
   ChartIcon,
@@ -46,7 +48,7 @@ const ICONS: Record<IconKey, (p: { className?: string }) => ReactNode> = {
  * content area. Auth/role gating is wired in during MVP engineering; this shell
  * is the layout the real pages render into.
  */
-export function WorkspaceShell({
+export async function WorkspaceShell({
   workspace,
   activeHref,
   user,
@@ -64,6 +66,7 @@ export function WorkspaceShell({
     .slice(0, 2)
     .join("")
     .toUpperCase();
+  const unread = user ? await unreadNotificationCount() : 0;
 
   return (
     <div className="min-h-screen bg-canvas">
@@ -85,6 +88,20 @@ export function WorkspaceShell({
                   {user.roleLabel ?? user.email}
                 </p>
               </div>
+            ) : null}
+            {user ? (
+              <Link
+                href="/notifications"
+                aria-label="Notifications"
+                className="relative flex h-9 w-9 items-center justify-center rounded-full text-navy-500 transition-colors hover:bg-navy-50 hover:text-navy"
+              >
+                <BellIcon className="h-5 w-5" />
+                {unread > 0 ? (
+                  <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-teal px-1 text-[10px] font-bold text-white">
+                    {unread > 9 ? "9+" : unread}
+                  </span>
+                ) : null}
+              </Link>
             ) : null}
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy text-xs font-semibold text-white">
               {initials}

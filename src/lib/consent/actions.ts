@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { getUserContext } from "@/lib/auth/session";
+import { logAudit } from "@/lib/audit";
 import type { ConsentFormState } from "@/lib/players/types";
 
 const schema = z.object({
@@ -47,6 +48,9 @@ export async function recordConsent(
   if (error) {
     return { error: "Could not record consent. Check your permission for this player." };
   }
+  await logAudit("consent.record", "player", parsed.data.playerId, {
+    type: parsed.data.consentType,
+  });
   revalidatePath(`/players/${parsed.data.playerId}`);
   return { message: "Consent recorded." };
 }
@@ -61,5 +65,6 @@ export async function withdrawConsent(formData: FormData): Promise<void> {
     .from("player_consents")
     .update({ status: "withdrawn", withdrawn_at: new Date().toISOString() })
     .eq("id", id);
+  await logAudit("consent.withdraw", "player", playerId || null, { consentId: id });
   if (playerId) revalidatePath(`/players/${playerId}`);
 }

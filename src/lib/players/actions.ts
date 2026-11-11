@@ -6,6 +6,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { getUserContext } from "@/lib/auth/session";
 import { computeCompleteness, parseList } from "./constants";
+import { logAudit } from "@/lib/audit";
 import type { PlayerFormState } from "./types";
 
 const schema = z.object({
@@ -130,5 +131,6 @@ export async function setPlayerStatus(id: string, status: string): Promise<void>
     .from("players")
     .update({ profile_status: status } as never)
     .eq("id", id);
+  await logAudit("player.status", "player", id, { status });
   revalidatePath(`/players/${id}`);
 }

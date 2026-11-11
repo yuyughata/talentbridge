@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { WorkspaceShell } from "@/components/workspace/workspace-shell";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
@@ -122,7 +123,18 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
 
         {/* Development */}
         <Card>
-          <CardHeader title="Development" subtitle="Plans and review dates (§5 M07)" />
+          <CardHeader
+            title="Development"
+            subtitle="Plans and review dates (§5 M07)"
+            action={
+              <Link
+                href={`/players/${player.id}/development`}
+                className="text-sm font-medium text-lime-700 hover:text-lime-800"
+              >
+                Manage →
+              </Link>
+            }
+          />
           <CardBody>
             {plans.length > 0 ? (
               <ul className="divide-y divide-navy-100">

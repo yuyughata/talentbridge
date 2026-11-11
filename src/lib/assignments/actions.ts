@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { getUserContext } from "@/lib/auth/session";
+import { logAudit } from "@/lib/audit";
+import { notifyUser } from "@/lib/notifications/notify";
 import type { AssignmentFormState } from "./types";
 
 const schema = z.object({
@@ -64,19 +66,35 @@ export async function createAssignment(
     matchId = match?.id ?? null;
   }
 
-  const { error } = await supabase.from("scouting_assignments").insert({
-    scout_user_id: parsed.data.scoutUserId,
-    assigned_by: ctx.userId,
-    match_id: matchId,
-    target_player_id: parsed.data.targetPlayerId ?? null,
-    target_position: parsed.data.targetPosition ?? null,
-    objective: parsed.data.objective ?? null,
-    due_date: parsed.data.dueDate || null,
-    status: "open",
-  });
-  if (error) {
+  const { data: created, error } = await supabase
+    .from("scouting_assignments")
+    .insert({
+      scout_user_id: parsed.data.scoutUserId,
+      assigned_by: ctx.userId,
+      match_id: matchId,
+      target_player_id: parsed.data.targetPlayerId ?? null,
+      target_position: parsed.data.targetPosition ?? null,
+      objective: parsed.data.objective ?? null,
+      due_date: parsed.data.dueDate || null,
+      status: "open",
+    })
+    .select("id")
+    .single();
+  if (error || !created) {
     return { error: "Could not create the assignment." };
   }
+
+  await logAudit("assignment.create", "scouting_assignment", created.id, {
+    scout: parsed.data.scoutUserId,
+  });
+  await notifyUser(
+    parsed.data.scoutUserId,
+    "assignment",
+    "New scouting assignment",
+    parsed.data.objective ?? null,
+    "/scout/assignments",
+  );
+
   revalidatePath("/admin/assignments");
   redirect("/admin/assignments");
 }
