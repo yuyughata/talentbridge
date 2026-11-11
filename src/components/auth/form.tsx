@@ -49,18 +49,25 @@ export function SelectField({
   name,
   options,
   defaultValue,
+  value,
+  onChange,
 }: {
   label: string;
   name: string;
   options: { value: string; label: string }[];
   defaultValue?: string;
+  /** When provided (with onChange), the select is controlled. */
+  value?: string;
+  onChange?: (value: string) => void;
 }) {
+  const controlled = onChange !== undefined;
   return (
     <label className="block">
       <span className="mb-1.5 block text-sm font-medium text-navy">{label}</span>
       <select
         name={name}
-        defaultValue={defaultValue}
+        {...(controlled ? { value } : { defaultValue })}
+        onChange={onChange ? (e) => onChange(e.target.value) : undefined}
         className="w-full rounded-lg border border-navy-200 bg-surface px-3 py-2 text-sm text-navy shadow-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
       >
         {options.map((o) => (

@@ -1,11 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import { useFormState } from "react-dom";
 import { createReport } from "@/lib/scouting/actions";
 import { FormMessage, SelectField, TextField } from "@/components/auth/form";
 import { Button } from "@/components/ui/button";
 import { CardBody, CardHeader, Card } from "@/components/ui/card";
-import { CATEGORY_DEFINITIONS, SCORECARD_CATEGORIES, SPEED_SUBSCORES } from "@/lib/scoring/model";
+import {
+  CATEGORY_DEFINITIONS,
+  SCORECARD_CATEGORIES,
+  SPEED_SUBSCORES,
+  positionOverlayGroup,
+} from "@/lib/scoring/model";
 import type { ReportFormState } from "@/lib/scouting/types";
 
 const EMPTY: ReportFormState = {};
@@ -34,11 +40,15 @@ export function ReportForm({
   defaultPlayerId,
   defaultAssignmentId,
 }: {
-  players: { id: string; name: string }[];
+  players: { id: string; name: string; position?: string | null }[];
   defaultPlayerId?: string;
   defaultAssignmentId?: string;
 }) {
   const [state, action] = useFormState(createReport, EMPTY);
+  const [playerId, setPlayerId] = useState(defaultPlayerId ?? "");
+
+  const selected = players.find((p) => p.id === playerId);
+  const overlay = positionOverlayGroup(selected?.position);
 
   return (
     <form action={action} className="space-y-6">
@@ -53,7 +63,8 @@ export function ReportForm({
           <SelectField
             label="Player"
             name="playerId"
-            defaultValue={defaultPlayerId ?? ""}
+            value={playerId}
+            onChange={setPlayerId}
             options={[
               { value: "", label: "— Select player —" },
               ...players.map((p) => ({ value: p.id, label: p.name })),
@@ -129,6 +140,22 @@ export function ReportForm({
         <CardBody>
           {SPEED_SUBSCORES.map((s) => (
             <RatingRow key={s.key} name={`speed_${s.key}`} label={s.label} />
+          ))}
+        </CardBody>
+      </Card>
+
+      <Card>
+        <CardHeader
+          title={`Position-specific assessment — ${overlay.label}`}
+          subtitle="Parameters that differ by position, 1–10 (§6 overlays)"
+        />
+        <CardBody>
+          <p className="mb-3 rounded-lg border border-amber-100 bg-amber-50 px-3 py-2 text-xs text-navy-700">
+            {overlay.note}
+            {!selected ? " Select a player above to load the right parameter set." : ""}
+          </p>
+          {overlay.attributes.map((a) => (
+            <RatingRow key={a.key} name={`overlay_${a.key}`} label={a.label} hint={a.description} />
           ))}
         </CardBody>
       </Card>

@@ -13,7 +13,11 @@ export default async function NewReportPage({
 }) {
   const ctx = await requireWorkspace("scout");
   const players = await listPlayers({ limit: 100 });
-  const options = players.map((p) => ({ id: p.id, name: p.preferred_name || p.display_name }));
+  const options = players.map((p) => ({
+    id: p.id,
+    name: p.preferred_name || p.display_name,
+    position: p.primary_position,
+  }));
 
   return (
     <WorkspaceShell

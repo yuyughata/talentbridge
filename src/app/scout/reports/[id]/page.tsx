@@ -155,6 +155,37 @@ export default async function ReportPage({ params }: { params: { id: string } })
         </Card>
       </div>
 
+      {report.overlay.length > 0 ? (
+        <div className="mt-6">
+          <Card>
+            <CardHeader
+              title="Position-specific assessment"
+              subtitle="Parameters that differ by position (§6 overlays) — does not change the weighted score"
+            />
+            <CardBody>
+              <table className="w-full text-sm">
+                <tbody>
+                  {report.overlay.map((o) => (
+                    <tr
+                      key={o.attribute_key ?? o.attribute}
+                      className="border-b border-navy-50 last:border-0"
+                    >
+                      <td className="py-1.5 text-navy">{o.attribute}</td>
+                      <td className="nums py-1.5 text-right font-semibold text-navy">
+                        {o.rating_1_to_10 != null ? `${o.rating_1_to_10}/10` : "—"}
+                      </td>
+                      {o.note ? (
+                        <td className="py-1.5 pl-3 text-xs text-navy-400">{o.note}</td>
+                      ) : null}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </CardBody>
+          </Card>
+        </div>
+      ) : null}
+
       {canReview ? (
         <div className="mt-6">
           <Card>

@@ -62,8 +62,19 @@ A separate overlay capturing four dimensions (`speed_subscores` table): **Accele
 ## Position-specific overlays (§6)
 
 Keep the seven-category base model for comparison, then add position-specific attributes as a
-**separate overlay** (`POSITION_OVERLAYS`, stored per report in `report_position_notes`). Do not
-distort the base weights per position.
+**separate overlay** that never changes the weighted 0–100 score. Overlays are defined in
+`src/lib/scoring/model.ts` as `OVERLAY_GROUPS` (goalkeeper, defender, midfielder, winger, striker);
+`positionOverlayGroup(primaryPosition)` resolves a player's position to the right group, and the
+scouting report form renders that group's parameters as extra 1–10 rows. Each overlay rating is
+stored per report in `report_position_notes` (`group_key`, `attribute_key`, `attribute`,
+`rating_1_to_10`, `note`).
+
+**Goalkeepers are assessed differently.** Their game does not map onto dribbling, finishing or raw
+sprinting, so the goalkeeper overlay replaces the outfield parameters with: shot-stopping &
+reflexes, handling & catching, command of area (crosses), 1v1 & shot blocking, positioning &
+sweeping, distribution with feet, distribution with hands, and communication & organisation. The
+seven base categories still apply, read for the position — "Technical" as handling and footwork,
+"Speed" as reactions and recovery off the line.
 
 ## Mandatory context fields (§6, Appendix A)
 

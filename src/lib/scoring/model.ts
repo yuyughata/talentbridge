@@ -119,45 +119,151 @@ export function ratingDescriptor(rating: number): string {
   return band?.descriptor ?? "Unrated";
 }
 
-/** Position-specific overlay attributes (§6 Position-specific overlays). */
-export const POSITION_OVERLAYS: Record<string, string[]> = {
-  goalkeeper: [
-    "Shot-stopping",
-    "Handling",
-    "Command of area",
-    "Distribution",
-    "Starting position",
-    "Communication",
-  ],
-  defender: [
-    "1v1 defending",
-    "Aerial ability",
-    "Recovery runs",
-    "Line management",
-    "Defensive timing",
-    "Build-up passing",
-  ],
-  midfielder: [
-    "Scanning",
-    "Receiving orientation",
-    "Press resistance",
-    "Progression",
-    "Tempo control",
-    "Defensive coverage",
-  ],
-  winger: [
-    "1v1 threat",
-    "Chance creation",
-    "Movement between lines",
-    "Crossing/cutbacks",
-    "Transition decisions",
-  ],
-  striker: [
-    "Movement",
-    "Separation",
-    "Finishing variety",
-    "Link play",
-    "Pressing",
-    "Box positioning",
-  ],
-};
+/**
+ * Position-specific overlay attributes (§6 Position-specific overlays).
+ *
+ * These sit ALONGSIDE the seven weighted categories and do NOT change the 0–100
+ * weighted score — they capture the signal that differs by position. They matter
+ * most for goalkeepers, whose game is assessed on a fundamentally different set
+ * of parameters from outfield players (shot-stopping, handling, command of the
+ * area, distribution) rather than on dribbling, finishing or raw sprinting.
+ */
+export interface OverlayAttribute {
+  key: string;
+  label: string;
+  description: string;
+}
+
+export interface OverlayGroup {
+  key: string;
+  label: string;
+  /** How to read the core seven categories for this position. */
+  note: string;
+  attributes: OverlayAttribute[];
+}
+
+export const OVERLAY_GROUPS = {
+  goalkeeper: {
+    key: "goalkeeper",
+    label: "Goalkeeper",
+    note: "Goalkeepers are assessed on a distinct parameter set. The seven core categories still apply — read 'Technical' as handling and footwork, and 'Speed' as reactions and recovery off the line — but these overlay parameters carry the real goalkeeping signal.",
+    attributes: [
+      {
+        key: "shot_stopping",
+        label: "Shot-stopping & reflexes",
+        description:
+          "Reaction saves, shot anticipation, set/strong hands, saves from distance, deflections and rebounds.",
+      },
+      {
+        key: "handling",
+        label: "Handling & catching",
+        description:
+          "Secure catching and parrying under pressure, high and low balls, wet-ball control, rebound management.",
+      },
+      {
+        key: "aerial_command",
+        label: "Command of area (crosses)",
+        description:
+          "Judging flight, claiming crosses and set pieces, punch-vs-catch decisions, dominating the six-yard box.",
+      },
+      {
+        key: "one_v_one",
+        label: "1v1 & shot blocking",
+        description:
+          "Narrowing the angle, timing of the spread, blocking in breakaways, staying big and patient.",
+      },
+      {
+        key: "positioning",
+        label: "Positioning & sweeping",
+        description:
+          "Starting position relative to ball and goal, depth off the line, sweeping behind a high line, angles.",
+      },
+      {
+        key: "distribution_feet",
+        label: "Distribution — feet",
+        description:
+          "Build-up under pressure, range and accuracy of kicking, playing through a press, decision speed.",
+      },
+      {
+        key: "distribution_hands",
+        label: "Distribution — hands",
+        description:
+          "Throw and rollout accuracy and range, launching transitions, choosing the right outlet.",
+      },
+      {
+        key: "communication",
+        label: "Communication & organisation",
+        description:
+          "Organising the back line and set-piece marking, timely commands, leadership and composure.",
+      },
+    ],
+  },
+  defender: {
+    key: "defender",
+    label: "Defender",
+    note: "Outfield defensive overlay — read alongside the seven core categories.",
+    attributes: [
+      { key: "one_v_one_defending", label: "1v1 defending", description: "Containing, jockeying and winning the ball cleanly in isolation." },
+      { key: "aerial_ability", label: "Aerial ability", description: "Duels, timing and dominance in defensive and attacking set pieces." },
+      { key: "recovery_runs", label: "Recovery runs", description: "Tracking back, covering space and recovery pace under threat." },
+      { key: "line_management", label: "Line management", description: "Holding the line, stepping, offside discipline and compactness." },
+      { key: "defensive_timing", label: "Defensive timing", description: "Tackle and interception timing, reading the next pass." },
+      { key: "build_up_passing", label: "Build-up passing", description: "Composure and range playing out from the back under pressure." },
+    ],
+  },
+  midfielder: {
+    key: "midfielder",
+    label: "Midfielder",
+    note: "Central midfield overlay — read alongside the seven core categories.",
+    attributes: [
+      { key: "scanning", label: "Scanning", description: "Pre-reception checks, picture-building and awareness of pressure." },
+      { key: "receiving_orientation", label: "Receiving orientation", description: "Body shape on receiving, opening out and first-touch direction." },
+      { key: "press_resistance", label: "Press resistance", description: "Keeping the ball and finding solutions under tight pressure." },
+      { key: "progression", label: "Progression", description: "Breaking lines by pass or carry, advancing play with purpose." },
+      { key: "tempo_control", label: "Tempo control", description: "Setting and changing rhythm, when to accelerate or hold." },
+      { key: "defensive_coverage", label: "Defensive coverage", description: "Screening, counter-pressing and covering for teammates." },
+    ],
+  },
+  winger: {
+    key: "winger",
+    label: "Winger / wide attacker",
+    note: "Wide attacking overlay — read alongside the seven core categories.",
+    attributes: [
+      { key: "one_v_one_threat", label: "1v1 threat", description: "Beating a full-back, change of pace and direction in isolation." },
+      { key: "chance_creation", label: "Chance creation", description: "Final-ball quality and assists from wide areas." },
+      { key: "movement_between_lines", label: "Movement between lines", description: "Finding pockets, inside runs and off-ball timing." },
+      { key: "crossing_cutbacks", label: "Crossing & cutbacks", description: "Delivery variety, cutbacks and early balls under pressure." },
+      { key: "transition_decisions", label: "Transition decisions", description: "Decision quality in attacking and defensive transitions." },
+    ],
+  },
+  striker: {
+    key: "striker",
+    label: "Striker / centre-forward",
+    note: "Centre-forward overlay — read alongside the seven core categories.",
+    attributes: [
+      { key: "movement", label: "Movement", description: "Runs in behind, timing and variety of off-ball movement." },
+      { key: "separation", label: "Separation", description: "Creating a yard from markers in the box and build-up." },
+      { key: "finishing_variety", label: "Finishing variety", description: "Range of finishes under pressure, both feet and head." },
+      { key: "link_play", label: "Link play", description: "Hold-up, lay-offs and combining to bring others in." },
+      { key: "pressing", label: "Pressing", description: "Leading the press, cutting passing lanes and setting traps." },
+      { key: "box_positioning", label: "Box positioning", description: "Attacking the right spaces to meet deliveries." },
+    ],
+  },
+} as const satisfies Record<string, OverlayGroup>;
+
+export type OverlayGroupKey = keyof typeof OVERLAY_GROUPS;
+
+/**
+ * Resolve a player's primary position (free text like "Goalkeeper", "Centre
+ * Back", "Second Striker") to the overlay group whose parameters should be
+ * assessed. Goalkeepers get their own parameter set; everything else maps to the
+ * nearest outfield group, defaulting to midfield.
+ */
+export function positionOverlayGroup(position: string | null | undefined): OverlayGroup {
+  const p = (position ?? "").toLowerCase();
+  if (p.includes("keeper") || p === "gk") return OVERLAY_GROUPS.goalkeeper;
+  if (p.includes("wing")) return OVERLAY_GROUPS.winger;
+  if (p.includes("strik") || p.includes("forward")) return OVERLAY_GROUPS.striker;
+  if (p.includes("back") || p.includes("defen")) return OVERLAY_GROUPS.defender;
+  return OVERLAY_GROUPS.midfielder;
+}

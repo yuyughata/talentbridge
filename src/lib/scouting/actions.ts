@@ -4,7 +4,11 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getUserContext } from "@/lib/auth/session";
-import { SCORECARD_CATEGORIES, type ScorecardCategory } from "@/lib/scoring/model";
+import {
+  SCORECARD_CATEGORIES,
+  positionOverlayGroup,
+  type ScorecardCategory,
+} from "@/lib/scoring/model";
 import { buildRatingSnapshots, calculateWeightedScore } from "@/lib/scoring/calculate";
 import { logAudit } from "@/lib/audit";
 import { notifyUser } from "@/lib/notifications/notify";
@@ -121,6 +125,31 @@ export async function createReport(
     repeated_sprint: intInRange(formData.get("speed_repeated_sprint"), 1, 10),
     football_speed: intInRange(formData.get("speed_football_speed"), 1, 10),
   });
+
+  // Position-specific overlay parameters (§6). Goalkeepers are assessed on a
+  // different parameter set from outfield players. The group is resolved from
+  // the player's real position server-side, not trusted from the client.
+  const { data: playerRow } = await supabase
+    .from("players")
+    .select("primary_position")
+    .eq("id", playerId)
+    .maybeSingle();
+  const overlay = positionOverlayGroup(
+    (playerRow as { primary_position?: string | null } | null)?.primary_position,
+  );
+  const overlayRows = overlay.attributes
+    .map((a) => ({
+      report_id: report.id,
+      group_key: overlay.key,
+      attribute_key: a.key,
+      attribute: a.label,
+      rating_1_to_10: intInRange(formData.get(`overlay_${a.key}`), 1, 10),
+      note: String(formData.get(`overlay_note_${a.key}`) ?? "") || null,
+    }))
+    .filter((r) => r.rating_1_to_10 !== null || r.note !== null);
+  if (overlayRows.length > 0) {
+    await supabase.from("report_position_notes").insert(overlayRows);
+  }
 
   // Advance the originating assignment when the report is submitted (§5 M04).
   const assignmentId = String(formData.get("assignmentId") ?? "");

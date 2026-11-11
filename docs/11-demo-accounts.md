@@ -33,12 +33,12 @@ Sign in at `/login`. Each account lands in the workspace for its role (§3).
 Roles are modelled as `organisation_members.role` (per-organisation) plus the
 `users.is_super_admin` flag — see `docs/03-roles-and-permissions.md`.
 
-## Seeded players (10)
+## Seeded players (11)
 
-Ten Nigerian players, ages 13–19, across defence, midfield and attack. Seven are
-minors (restricted PII and extra safeguarding), three are 18+. Profile statuses
-span the lifecycle so the review queue, "needs evidence" and "active" states are
-all populated.
+Eleven Nigerian players, ages 13–19, across goalkeeper, defence, midfield and
+attack. Seven are minors (restricted PII and extra safeguarding), the rest are
+18+. Profile statuses span the lifecycle so the review queue, "needs evidence"
+and "active" states are all populated.
 
 | Player | Position | Age | Status |
 | --- | --- | --- | --- |
@@ -48,14 +48,22 @@ all populated.
 | Ifeanyi Okafor | Defensive Midfielder | 16 | needs evidence |
 | Kelechi Umeh | Striker | 16 | needs evidence |
 | Tunde Bakare | Right Back | 17 | submitted |
+| Daniel Okoro | **Goalkeeper** | 18 | active |
 | Musa Abdullahi | Central Midfielder | 18 | active |
 | Emeka Obi | Centre Back | 18 | active |
 | Chinedu Nwosu | Left Back | 18 | active |
 | David Okonkwo | Striker | 19 | active |
 
-**By line:** Defenders — Bakare (RB), Obi (CB), Nwosu (LB). Midfielders —
-Adeyemi (CM), Eze (AM), Okafor (DM), Abdullahi (CM). Strikers — Balogun (SS),
-Umeh (ST), Okonkwo (ST).
+**By line:** Goalkeeper — Okoro (GK). Defenders — Bakare (RB), Obi (CB), Nwosu
+(LB). Midfielders — Adeyemi (CM), Eze (AM), Okafor (DM), Abdullahi (CM).
+Strikers — Balogun (SS), Umeh (ST), Okonkwo (ST).
+
+**Goalkeeper assessment.** Daniel Okoro has a submitted scouting report that
+uses the **goalkeeper overlay** (`docs/04-scoring-model.md`) — shot-stopping,
+handling, command of area, 1v1, positioning/sweeping, distribution with feet and
+hands, and communication — rather than the outfield parameters. Sign in as the
+scout or reviewer and open his report to see the position-specific assessment
+alongside the seven weighted categories.
 
 ## Other seeded records
 
@@ -63,7 +71,8 @@ So the dashboards and queues are not empty:
 
 - **Academies / clubs** — Lagos Future Stars Academy, Talent Bridge Africa
   (reviewing org), Demo FC (recruiter).
-- **Scouting reports** — 2 reports, one sitting in the reviewer queue.
+- **Scouting reports** — 3 reports (incl. the goalkeeper report), two sitting in
+  the reviewer queue.
 - **Recruiter access** — 1 consent-based grant to Demo FC.
 - **Verification** — 3 verification records (identity / age / registration).
 - **Media** — 2 linked footage items (private by default, §2/§5 M06).

@@ -84,6 +84,13 @@ export interface FullReport {
     repeated_sprint: number | null;
     football_speed: number | null;
   } | null;
+  overlay: {
+    group_key: string | null;
+    attribute_key: string | null;
+    attribute: string;
+    rating_1_to_10: number | null;
+    note: string | null;
+  }[];
   match: {
     competition: string | null;
     away_team: string | null;
@@ -105,7 +112,7 @@ export async function getReport(id: string): Promise<FullReport | null> {
   if (!data) return null;
 
   const row = data as Record<string, unknown>;
-  const [{ data: ratings }, { data: speed }] = await Promise.all([
+  const [{ data: ratings }, { data: speed }, { data: overlay }] = await Promise.all([
     supabase
       .from("scorecard_ratings")
       .select("category, rating_1_to_10, weight_snapshot, evidence_note")
@@ -115,6 +122,10 @@ export async function getReport(id: string): Promise<FullReport | null> {
       .select("acceleration, top_speed, repeated_sprint, football_speed")
       .eq("report_id", id)
       .maybeSingle(),
+    supabase
+      .from("report_position_notes")
+      .select("group_key, attribute_key, attribute, rating_1_to_10, note")
+      .eq("report_id", id),
   ]);
 
   const m = row.matches as FullReport["match"];
@@ -123,6 +134,7 @@ export async function getReport(id: string): Promise<FullReport | null> {
     player_name: playerName(row),
     ratings: (ratings as FullReport["ratings"]) ?? [],
     speed: (speed as FullReport["speed"]) ?? null,
+    overlay: (overlay as unknown as FullReport["overlay"]) ?? [],
     match: m ?? null,
   };
 }
