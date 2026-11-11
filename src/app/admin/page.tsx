@@ -5,12 +5,18 @@ import { PlayerCard } from "@/components/player/player-card";
 import { PageHeading, ScaffoldNote, WorkspaceShell } from "@/components/workspace/workspace-shell";
 import { UsersIcon, ClipboardIcon, ShieldIcon, CalendarIcon } from "@/components/ui/icons";
 import { DEMO_PLAYERS } from "@/lib/demo-data";
+import { requireWorkspace } from "@/lib/auth/session";
 
 export const metadata = { title: "Command Centre" };
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
+  const ctx = await requireWorkspace("admin");
   return (
-    <WorkspaceShell workspace="admin" activeHref="/admin">
+    <WorkspaceShell
+      workspace="admin"
+      activeHref="/admin"
+      user={{ displayName: ctx.displayName, email: ctx.email }}
+    >
       <PageHeading
         title="Command Centre"
         description="Operate the platform, enforce quality and manage partner relationships."

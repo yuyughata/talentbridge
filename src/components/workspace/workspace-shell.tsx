@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Logo } from "@/components/brand/logo";
+import { signOut } from "@/lib/auth/actions";
 import { WORKSPACES, type IconKey, type WorkspaceNav } from "@/lib/navigation";
 import {
   BallIcon,
@@ -48,13 +49,21 @@ const ICONS: Record<IconKey, (p: { className?: string }) => ReactNode> = {
 export function WorkspaceShell({
   workspace,
   activeHref,
+  user,
   children,
 }: {
   workspace: keyof typeof WORKSPACES;
   activeHref?: string;
+  user?: { displayName: string; email: string; roleLabel?: string };
   children: ReactNode;
 }) {
   const nav: WorkspaceNav = WORKSPACES[workspace];
+  const initials = (user?.displayName ?? "TB")
+    .split(" ")
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
 
   return (
     <div className="min-h-screen bg-canvas">
@@ -68,9 +77,29 @@ export function WorkspaceShell({
               {nav.title}
             </span>
           </div>
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy text-xs font-semibold text-white">
-            TB
-          </span>
+          <div className="flex items-center gap-3">
+            {user ? (
+              <div className="hidden text-right sm:block">
+                <p className="text-sm font-medium leading-tight text-navy">{user.displayName}</p>
+                <p className="text-xs leading-tight text-navy-400">
+                  {user.roleLabel ?? user.email}
+                </p>
+              </div>
+            ) : null}
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy text-xs font-semibold text-white">
+              {initials}
+            </span>
+            {user ? (
+              <form action={signOut}>
+                <button
+                  type="submit"
+                  className="rounded-lg px-2.5 py-1.5 text-sm font-medium text-navy-500 transition-colors hover:bg-navy-50 hover:text-navy"
+                >
+                  Sign out
+                </button>
+              </form>
+            ) : null}
+          </div>
         </div>
       </header>
 

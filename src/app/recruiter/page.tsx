@@ -4,6 +4,7 @@ import { PlayerCard } from "@/components/player/player-card";
 import { PageHeading, ScaffoldNote, WorkspaceShell } from "@/components/workspace/workspace-shell";
 import { SearchIcon, LockIcon } from "@/components/ui/icons";
 import { DEMO_PLAYERS } from "@/lib/demo-data";
+import { requireWorkspace } from "@/lib/auth/session";
 
 export const metadata = { title: "Discover" };
 
@@ -17,9 +18,14 @@ const FILTERS = [
   "Verified status",
 ];
 
-export default function RecruiterDiscovery() {
+export default async function RecruiterDiscovery() {
+  const ctx = await requireWorkspace("recruiter");
   return (
-    <WorkspaceShell workspace="recruiter" activeHref="/recruiter">
+    <WorkspaceShell
+      workspace="recruiter"
+      activeHref="/recruiter"
+      user={{ displayName: ctx.displayName, email: ctx.email }}
+    >
       <PageHeading
         title="Discover"
         description="Controlled, consent-based access to relevant talent."

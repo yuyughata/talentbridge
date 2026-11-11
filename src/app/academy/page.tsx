@@ -2,6 +2,7 @@ import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { KpiStat } from "@/components/ui/kpi-stat";
 import { PageHeading, ScaffoldNote, WorkspaceShell } from "@/components/workspace/workspace-shell";
 import { UsersIcon, CalendarIcon, TargetIcon } from "@/components/ui/icons";
+import { requireWorkspace } from "@/lib/auth/session";
 
 export const metadata = { title: "Academy overview" };
 
@@ -15,9 +16,14 @@ const WEEK = [
   { day: "Sun", focus: "Rest", tone: "bg-navy-50 text-navy-400" },
 ];
 
-export default function AcademyOverview() {
+export default async function AcademyOverview() {
+  const ctx = await requireWorkspace("academy");
   return (
-    <WorkspaceShell workspace="academy" activeHref="/academy">
+    <WorkspaceShell
+      workspace="academy"
+      activeHref="/academy"
+      user={{ displayName: ctx.displayName, email: ctx.email }}
+    >
       <PageHeading
         title="Academy overview"
         description="Maintain records and collaborate with TBA."

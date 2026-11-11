@@ -5,12 +5,18 @@ import { ScoreRing } from "@/components/player/score-ring";
 import { PageHeading, ScaffoldNote, WorkspaceShell } from "@/components/workspace/workspace-shell";
 import { UserIcon, LockIcon, TargetIcon } from "@/components/ui/icons";
 import { DEMO_RADAR } from "@/lib/demo-data";
+import { requireWorkspace } from "@/lib/auth/session";
 
 export const metadata = { title: "Player overview" };
 
-export default function PlayerOverview() {
+export default async function PlayerOverview() {
+  const ctx = await requireWorkspace("player");
   return (
-    <WorkspaceShell workspace="player" activeHref="/player">
+    <WorkspaceShell
+      workspace="player"
+      activeHref="/player"
+      user={{ displayName: ctx.displayName, email: ctx.email }}
+    >
       <PageHeading
         title="Overview"
         description="Maintain approved information and see your development feedback."

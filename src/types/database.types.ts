@@ -301,6 +301,76 @@ export type Database = {
           },
         ];
       };
+      invitations: {
+        Row: {
+          accepted_at: string | null;
+          accepted_by: string | null;
+          created_at: string;
+          email: string;
+          expires_at: string;
+          id: string;
+          invited_by: string | null;
+          message: string | null;
+          organisation_id: string | null;
+          role: Database["public"]["Enums"]["app_role"];
+          status: Database["public"]["Enums"]["invitation_status"];
+          token: string;
+          updated_at: string;
+        };
+        Insert: {
+          accepted_at?: string | null;
+          accepted_by?: string | null;
+          created_at?: string;
+          email: string;
+          expires_at?: string;
+          id?: string;
+          invited_by?: string | null;
+          message?: string | null;
+          organisation_id?: string | null;
+          role: Database["public"]["Enums"]["app_role"];
+          status?: Database["public"]["Enums"]["invitation_status"];
+          token: string;
+          updated_at?: string;
+        };
+        Update: {
+          accepted_at?: string | null;
+          accepted_by?: string | null;
+          created_at?: string;
+          email?: string;
+          expires_at?: string;
+          id?: string;
+          invited_by?: string | null;
+          message?: string | null;
+          organisation_id?: string | null;
+          role?: Database["public"]["Enums"]["app_role"];
+          status?: Database["public"]["Enums"]["invitation_status"];
+          token?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "invitations_accepted_by_fkey";
+            columns: ["accepted_by"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "invitations_invited_by_fkey";
+            columns: ["invited_by"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "invitations_organisation_id_fkey";
+            columns: ["organisation_id"];
+            isOneToOne: false;
+            referencedRelation: "organisations";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       matches: {
         Row: {
           away_team: string | null;
@@ -1861,6 +1931,7 @@ export type Database = {
       consent_status: "granted" | "withdrawn" | "expired" | "pending";
       enquiry_status: "requested" | "approved" | "active" | "expired" | "revoked" | "declined";
       goal_status: "not_started" | "in_progress" | "achieved" | "deferred";
+      invitation_status: "pending" | "accepted" | "revoked" | "expired";
       media_processing_status: "pending" | "processing" | "ready" | "failed";
       media_visibility: "private" | "internal" | "shared" | "public";
       organisation_type: "academy" | "club" | "agency" | "tba";
@@ -2025,6 +2096,7 @@ export const Constants = {
       consent_status: ["granted", "withdrawn", "expired", "pending"],
       enquiry_status: ["requested", "approved", "active", "expired", "revoked", "declined"],
       goal_status: ["not_started", "in_progress", "achieved", "deferred"],
+      invitation_status: ["pending", "accepted", "revoked", "expired"],
       media_processing_status: ["pending", "processing", "ready", "failed"],
       media_visibility: ["private", "internal", "shared", "public"],
       organisation_type: ["academy", "club", "agency", "tba"],

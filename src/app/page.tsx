@@ -95,7 +95,7 @@ export default function HomePage() {
               For Clubs
             </Link>
           </nav>
-          <Link href="/player">
+          <Link href="/login">
             <Button size="sm">Sign in</Button>
           </Link>
         </div>

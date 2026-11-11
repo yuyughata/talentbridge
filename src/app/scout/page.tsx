@@ -8,14 +8,20 @@ import { ScoreRing } from "@/components/player/score-ring";
 import { PageHeading, ScaffoldNote, WorkspaceShell } from "@/components/workspace/workspace-shell";
 import { TargetIcon, ClipboardIcon, WhistleIcon } from "@/components/ui/icons";
 import { DEMO_PLAYERS, DEMO_RADAR } from "@/lib/demo-data";
+import { requireWorkspace } from "@/lib/auth/session";
 
 export const metadata = { title: "Scout dashboard" };
 
-export default function ScoutDashboard() {
+export default async function ScoutDashboard() {
+  const ctx = await requireWorkspace("scout");
   const focus = DEMO_PLAYERS[0]!;
 
   return (
-    <WorkspaceShell workspace="scout" activeHref="/scout">
+    <WorkspaceShell
+      workspace="scout"
+      activeHref="/scout"
+      user={{ displayName: ctx.displayName, email: ctx.email }}
+    >
       <PageHeading
         title="Scout dashboard"
         description="Make field scouting fast, structured and auditable."
