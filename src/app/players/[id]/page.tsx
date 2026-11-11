@@ -161,6 +161,28 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
         </Card>
       </div>
 
+      {/* Videos & media (§5 M06) */}
+      <div className="mt-6">
+        <Card>
+          <CardHeader
+            title="Videos & media"
+            subtitle="Authorised match footage (§5 M06)"
+            action={
+              <Link
+                href={`/players/${player.id}/media`}
+                className="text-sm font-medium text-lime-700 hover:text-lime-800"
+              >
+                Open →
+              </Link>
+            }
+          />
+          <CardBody className="text-sm text-navy-500">
+            Link footage from a camera or video provider. Private by default; shared/public needs
+            recorded consent (§2).
+          </CardBody>
+        </Card>
+      </div>
+
       {/* Consent */}
       <div className="mt-6">
         <Card>

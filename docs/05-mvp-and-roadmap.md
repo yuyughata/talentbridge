@@ -143,5 +143,11 @@ These are hypotheses to adjust after observing real behaviour, not guaranteed ou
 11. ~~Reporting & analytics (M12)~~ — **done**: `src/lib/analytics`. `/admin/analytics` shows coverage,
     report pipeline, position distribution, evidence-backed-report rate (§13 target), average profile
     completeness, training sessions and recruiter enquiries by status.
-12. Remaining finishing: link training sessions to development goals in the UI; richer progress trend
-    charts (§5A G Release 3); M06 external video ingestion; the pre-pilot RLS test suite (§12).
+12. ~~Video & media library (M06)~~ — **done**: `src/lib/media`. Provider-agnostic "link authorised
+    footage" (XbotGo / Veo / Hudl / YouTube / Mux / …) into `media_assets` (a reference, not the
+    file). Per-player media library at `/players/[id]/media` and player portal `/player/videos`:
+    set visibility (private → internal → shared → public), with **shared/public gated on a recorded
+    consent** (§2); audited. Recruiters only see shared/public media they have access to (RLS).
+13. Remaining finishing: link training sessions to development goals in the UI; richer progress trend
+    charts (§5A G Release 3); re-host path to a dedicated video provider with signed URLs for
+    external shares (docs on video integration); the pre-pilot RLS test suite (§12).
