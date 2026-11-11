@@ -1,21 +1,39 @@
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { ScaffoldNote, WorkspaceShell } from "@/components/workspace/workspace-shell";
+import { RadarChart } from "@/components/scoring/radar-chart";
+import { ScoreRing } from "@/components/player/score-ring";
+import { PageHeading, ScaffoldNote, WorkspaceShell } from "@/components/workspace/workspace-shell";
+import { UserIcon, LockIcon, TargetIcon } from "@/components/ui/icons";
+import { DEMO_RADAR } from "@/lib/demo-data";
 
 export const metadata = { title: "Player overview" };
 
 export default function PlayerOverview() {
   return (
     <WorkspaceShell workspace="player" activeHref="/player">
-      <h1 className="text-2xl font-semibold text-navy">Overview</h1>
+      <PageHeading
+        title="Overview"
+        description="Maintain approved information and see your development feedback."
+      />
 
-      <div className="mt-5 grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
         <Card>
-          <CardHeader title="My profile" subtitle="Keep approved information current" />
-          <CardBody className="space-y-3 text-sm text-navy-600">
-            <div className="flex items-center justify-between">
+          <CardHeader
+            title="My profile"
+            subtitle="Keep approved information current"
+            icon={<UserIcon />}
+          />
+          <CardBody className="space-y-3">
+            <div className="flex items-center justify-between text-sm text-navy-600">
               <span>Profile status</span>
               <StatusBadge status="draft" />
+            </div>
+            <div className="flex items-center justify-between text-sm text-navy-600">
+              <span>Completeness</span>
+              <span className="nums font-semibold text-navy">62%</span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-navy-50">
+              <div className="h-full rounded-full bg-teal-sheen" style={{ width: "62%" }} />
             </div>
             <ScaffoldNote>
               Players maintain public, consented fields. Date of birth and documents are restricted
@@ -25,9 +43,29 @@ export default function PlayerOverview() {
         </Card>
 
         <Card>
-          <CardHeader title="Consent & privacy" subtitle="You control who can see your profile" />
-          <CardBody className="space-y-3 text-sm text-navy-600">
-            <div className="flex items-center justify-between">
+          <CardHeader
+            title="My latest assessment"
+            subtitle="Shown with date and assessor"
+            icon={<TargetIcon />}
+          />
+          <CardBody>
+            <div className="grid grid-cols-[auto_1fr] items-center gap-4">
+              <ScoreRing value={74} size={88} />
+              <RadarChart axes={DEMO_RADAR} size={220} />
+            </div>
+          </CardBody>
+        </Card>
+      </div>
+
+      <div className="mt-5">
+        <Card>
+          <CardHeader
+            title="Consent & privacy"
+            subtitle="You control who can see your profile"
+            icon={<LockIcon />}
+          />
+          <CardBody className="space-y-3">
+            <div className="flex items-center justify-between text-sm text-navy-600">
               <span>Sharing</span>
               <StatusBadge status="restricted" />
             </div>
