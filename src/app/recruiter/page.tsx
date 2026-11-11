@@ -1,10 +1,10 @@
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { PlayerCard } from "@/components/player/player-card";
 import { PageHeading, ScaffoldNote, WorkspaceShell } from "@/components/workspace/workspace-shell";
+import { PlayersGrid } from "@/components/players/players-grid";
 import { SearchIcon, LockIcon } from "@/components/ui/icons";
-import { DEMO_PLAYERS } from "@/lib/demo-data";
 import { requireWorkspace } from "@/lib/auth/session";
+import { listPlayers } from "@/lib/players/queries";
 
 export const metadata = { title: "Discover" };
 
@@ -20,6 +20,7 @@ const FILTERS = [
 
 export default async function RecruiterDiscovery() {
   const ctx = await requireWorkspace("recruiter");
+  const players = await listPlayers({ limit: 60 });
   return (
     <WorkspaceShell
       workspace="recruiter"
@@ -67,11 +68,7 @@ export default async function RecruiterDiscovery() {
             </CardBody>
           </Card>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            {DEMO_PLAYERS.slice(0, 2).map((p) => (
-              <PlayerCard key={p.name} player={p} />
-            ))}
-          </div>
+          <PlayersGrid players={players} />
         </div>
       </div>
     </WorkspaceShell>

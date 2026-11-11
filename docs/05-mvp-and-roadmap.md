@@ -99,10 +99,17 @@ These are hypotheses to adjust after observing real behaviour, not guaranteed ou
 
 ## Immediate engineering next steps
 
-1. Wire Supabase Auth + invitation flows; add route-level role gating on the `/player`, `/scout`,
-   `/academy`, `/recruiter`, `/admin` groups.
-2. Player registry CRUD + consent capture (M02, M03).
+1. ~~Supabase Auth + invitation flows + route-level role gating~~ — **done** (docs/09).
+2. ~~Player registry CRUD + consent capture (M02, M03)~~ — **done**:
+   - `src/lib/players` (constants, queries, create/update actions, completeness) and
+     `src/lib/consent` (record/withdraw).
+   - Academy squad list + add player; cross-workspace player profile at `/players/[id]`
+     (overview, development, consent, edit, submit-for-review); player self-profile at
+     `/player/profile`; scout / admin / recruiter lists wired to RLS-scoped queries.
+   - Restricted PII (DOB, nationality) hidden from non-authorised views (§2); consent capture
+     records a lawful basis before any external share (§5 M03).
 3. Scouting assignment + mobile scouting report form writing to `scouting_reports`,
-   `scorecard_ratings`, `speed_subscores`; compute `weighted_score` via `calculateWeightedScore`.
+   `scorecard_ratings`, `speed_subscores`; compute `weighted_score` via `calculateWeightedScore`
+   (M04, M05).
 4. Reviewer queue (approve / return with comments) (M05, §9).
 5. Admin KPI strip queries; audit logging on sensitive reads/writes.
