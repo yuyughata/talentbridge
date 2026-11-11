@@ -12,6 +12,7 @@ export interface PlayerCardData {
   location: string;
   lastAssessed: string;
   verification: StatusKind;
+  portrait?: string | null;
   score?: number;
   observations?: number;
 }
@@ -40,9 +41,18 @@ export function PlayerCard({ player, className }: { player: PlayerCardData; clas
         <div className="pitch-lines absolute inset-0 opacity-50" />
         <div className="relative flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/10 text-lg font-bold ring-1 ring-white/15">
-              {initials}
-            </div>
+            {player.portrait ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={player.portrait}
+                alt={`${player.name} portrait`}
+                className="h-14 w-14 flex-none rounded-xl object-cover ring-1 ring-white/15"
+              />
+            ) : (
+              <div className="flex h-14 w-14 flex-none items-center justify-center rounded-xl bg-white/10 text-lg font-bold ring-1 ring-white/15">
+                {initials}
+              </div>
+            )}
             <div>
               <p className="text-base font-semibold leading-tight">{player.name}</p>
               <p className="text-xs text-navy-100">

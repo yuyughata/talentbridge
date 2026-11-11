@@ -836,6 +836,7 @@ export type Database = {
           languages: string[];
           location: string | null;
           nationality: string | null;
+          portrait_url: string | null;
           preferred_name: string | null;
           primary_academy_id: string | null;
           primary_position: string | null;
@@ -856,6 +857,7 @@ export type Database = {
           languages?: string[];
           location?: string | null;
           nationality?: string | null;
+          portrait_url?: string | null;
           preferred_name?: string | null;
           primary_academy_id?: string | null;
           primary_position?: string | null;
@@ -876,6 +878,7 @@ export type Database = {
           languages?: string[];
           location?: string | null;
           nationality?: string | null;
+          portrait_url?: string | null;
           preferred_name?: string | null;
           primary_academy_id?: string | null;
           primary_position?: string | null;

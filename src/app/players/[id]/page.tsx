@@ -57,9 +57,18 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
           <div className="pitch-lines absolute inset-0 opacity-40" />
           <div className="relative flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <span className="flex h-16 w-16 items-center justify-center rounded-xl bg-white/10 text-xl font-bold ring-1 ring-white/15">
-                {initials}
-              </span>
+              {player.portrait_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={player.portrait_url}
+                  alt={`${player.preferred_name || player.display_name} portrait`}
+                  className="h-16 w-16 flex-none rounded-xl object-cover ring-1 ring-white/15"
+                />
+              ) : (
+                <span className="flex h-16 w-16 flex-none items-center justify-center rounded-xl bg-white/10 text-xl font-bold ring-1 ring-white/15">
+                  {initials}
+                </span>
+              )}
               <div>
                 <h1 className="text-xl font-semibold">
                   {player.preferred_name || player.display_name}

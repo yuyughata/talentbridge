@@ -60,6 +60,7 @@ function buildRecord(formData: FormData) {
     height_cm: d.heightCm ?? null,
     location: d.location ?? null,
     languages: parseList(formData.get("languages")),
+    portrait_url: (formData.get("portraitUrl") as string)?.trim() || null,
     is_minor: isMinor(d.dateOfBirth),
   };
   return { record };

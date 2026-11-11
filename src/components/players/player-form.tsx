@@ -115,6 +115,13 @@ export function PlayerForm({
         defaultValue={(player?.languages ?? []).join(", ")}
         placeholder="English, Hausa"
       />
+      <TextField
+        label="Portrait photo URL"
+        name="portraitUrl"
+        required={false}
+        defaultValue={player?.portrait_url ?? ""}
+        placeholder="https://… (permission-cleared photo)"
+      />
 
       <SubmitButton>{submitLabel}</SubmitButton>
     </form>

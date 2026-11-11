@@ -21,6 +21,7 @@ export interface PlayerRow {
   completeness_percent: number;
   primary_academy_id: string | null;
   user_id: string | null;
+  portrait_url: string | null;
   updated_at: string;
   academy_name?: string | null;
 }
@@ -42,7 +43,7 @@ export function profileBadge(status: string): StatusKind {
 const SELECT =
   "id, display_name, preferred_name, date_of_birth, nationality, primary_position, " +
   "secondary_positions, dominant_foot, height_cm, location, languages, profile_status, " +
-  "is_minor, completeness_percent, primary_academy_id, user_id, updated_at, organisations(name)";
+  "is_minor, completeness_percent, primary_academy_id, user_id, portrait_url, updated_at, organisations(name)";
 
 function normalise(row: Record<string, unknown>): PlayerRow {
   const org = row.organisations as { name: string | null } | { name: string | null }[] | null;
@@ -66,6 +67,7 @@ export function toPlayerCard(row: PlayerRow): PlayerCardData {
       year: "numeric",
     }),
     verification: profileBadge(row.profile_status),
+    portrait: row.portrait_url,
   };
 }
 
