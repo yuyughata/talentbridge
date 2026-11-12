@@ -12,8 +12,10 @@ import { listPlayerVerifications } from "@/lib/verification/queries";
 import { listRegistrations, listAssociations } from "@/lib/registrations/queries";
 import { RegistrationManager } from "@/components/players/registration-manager";
 import { latestPlayerScorecard } from "@/lib/scouting/queries";
+import { playerWeightedHistory } from "@/lib/insights/trends";
 import { RadarChart } from "@/components/scoring/radar-chart";
 import { ScoreRing } from "@/components/player/score-ring";
+import { Sparkline } from "@/components/insights/sparkline";
 import { verificationBadge, VERIFICATION_TYPE_LABEL } from "@/lib/verification/status";
 import { updatePlayer, setPlayerStatus } from "@/lib/players/actions";
 import { WORKSPACES } from "@/lib/navigation";
@@ -49,6 +51,11 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
     canEdit ? listAssociations() : Promise.resolve([]),
     latestPlayerScorecard(player.id),
   ]);
+  const history = await playerWeightedHistory(player.id);
+  const growthDelta =
+    history.length >= 2
+      ? Math.round(history[history.length - 1]!.score - history[0]!.score)
+      : null;
 
   const initials = (player.preferred_name || player.display_name)
     .split(" ")
@@ -147,6 +154,19 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
                       </p>
                     </div>
                   </div>
+                  {history.length >= 2 ? (
+                    <div className="mt-4 flex items-center gap-3 rounded-lg border border-navy-100 bg-surface-muted/50 px-3 py-2">
+                      <Sparkline values={history.map((h) => h.score)} />
+                      <span className="text-xs text-navy-500">
+                        <span
+                          className={`nums font-semibold ${growthDelta! >= 0 ? "text-teal-700" : "text-risk-600"}`}
+                        >
+                          {growthDelta! > 0 ? `+${growthDelta}` : growthDelta}
+                        </span>{" "}
+                        since first assessment · {history.length} reports
+                      </span>
+                    </div>
+                  ) : null}
                   <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
                     <Field label="Profile completeness" value={`${player.completeness_percent}%`} />
                     <Field label="Categories rated" value={`${scorecard.ratingCount} / 7`} />

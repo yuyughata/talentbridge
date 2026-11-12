@@ -9,6 +9,7 @@ export interface SessionRow {
   duration_min: number | null;
   intensity_intent: string | null;
   drill_video_url: string | null;
+  session_delivered_note: string | null;
   status: string;
   academy_id: string;
 }
@@ -26,7 +27,7 @@ export async function listSessions(academyId: string): Promise<SessionRow[]> {
   const { data } = await supabase
     .from("training_sessions")
     .select(
-      "id, title, objective, scheduled_at, duration_min, intensity_intent, drill_video_url, status, academy_id",
+      "id, title, objective, scheduled_at, duration_min, intensity_intent, drill_video_url, session_delivered_note, status, academy_id",
     )
     .eq("academy_id", academyId)
     .order("scheduled_at", { ascending: false, nullsFirst: false })
@@ -39,7 +40,7 @@ export async function getSession(id: string): Promise<SessionRow | null> {
   const { data } = await supabase
     .from("training_sessions")
     .select(
-      "id, title, objective, scheduled_at, duration_min, intensity_intent, drill_video_url, status, academy_id",
+      "id, title, objective, scheduled_at, duration_min, intensity_intent, drill_video_url, session_delivered_note, status, academy_id",
     )
     .eq("id", id)
     .maybeSingle();
