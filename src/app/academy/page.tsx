@@ -32,6 +32,16 @@ export default async function AcademyOverview() {
       <PageHeading
         title="Academy overview"
         description="Maintain records and collaborate with TBA."
+        action={
+          academy ? (
+            <a
+              href="/academy/summary/pdf"
+              className="text-sm font-medium text-lime-300 hover:text-lime-200"
+            >
+              Academy summary PDF
+            </a>
+          ) : null
+        }
       />
 
       <div className="grid gap-4 sm:grid-cols-3">

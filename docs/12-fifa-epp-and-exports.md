@@ -57,6 +57,7 @@ export what it may see.
 | **Player profile summary** | `/players/[id]/pdf` | Any viewer (restricted PII masked for non-privileged roles) |
 | **Scouting match report** | `/scout/reports/[id]/pdf` | Any role that can view the report (scout/reviewer/admin) |
 | **Operations summary** | `/admin/analytics/pdf` | Admin workspace only (super admin / reviewer) |
+| **Academy summary** | `/academy/summary/pdf` | Academy staff (scoped to their own academy) |
 
 Buttons: the player profile has **Profile PDF** and (for staff/academy/self)
 **NFF dossier PDF**; the report page and the reviewer/admin **Review Queue**

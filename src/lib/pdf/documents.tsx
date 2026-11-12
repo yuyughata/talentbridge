@@ -5,6 +5,7 @@ import type { PlayerDossier } from "@/lib/passport/dossier";
 import type { FullReport } from "@/lib/scouting/queries";
 import type { PlayerRow } from "@/lib/players/queries";
 import type { AnalyticsData, Bar } from "@/lib/analytics/queries";
+import type { AcademySummary } from "@/lib/analytics/academy";
 
 const C = {
   band: "#0A1D30",
@@ -319,6 +320,61 @@ export function AnalyticsDocument({ data, preparedBy }: { data: AnalyticsData; p
         <BarRows data={data.enquiryStatus} />
 
         <Footer text="Talent Bridge Africa — operations summary (§5 M12). Screening and operational metrics, not a FIFA rating." />
+      </Page>
+    </Document>
+  );
+}
+
+/* --------------------------------------------------------------- academy */
+
+export function AcademyDocument({ summary }: { summary: AcademySummary }) {
+  const rw = ["46%", "22%", "12%", "12%", "8%"];
+  return (
+    <Document title={`Academy summary — ${summary.academyName}`}>
+      <Page size="A4" style={s.page}>
+        <View style={s.band}>
+          <Text style={s.brand}>TALENT BRIDGE AFRICA</Text>
+          <Text style={s.title}>Academy Summary</Text>
+          <Text style={s.bandSub}>{summary.academyName} · generated {DATE(summary.generatedAt)}</Text>
+        </View>
+
+        <Text style={s.sectionTitle}>Key figures</Text>
+        <View style={s.grid}>
+          <Stat label="Players in squad" value={String(summary.kpis.squadSize)} />
+          <Stat label="Sessions this week" value={String(summary.kpis.sessionsThisWeek)} />
+          <Stat label="Reviews due (12-wk)" value={String(summary.kpis.reviewsDue)} />
+          <Stat label="Avg. profile completeness" value={`${summary.avgCompleteness}%`} />
+        </View>
+
+        <Text style={s.sectionTitle}>Squad by position</Text>
+        <BarRows data={summary.positionDistribution} />
+
+        <Text style={s.sectionTitle}>Squad by profile status</Text>
+        <BarRows data={summary.statusDistribution} />
+
+        <Text style={s.sectionTitle}>Roster ({summary.totalPlayers})</Text>
+        <View style={s.headRow}>
+          <Text style={[s.th, { width: rw[0] }]}>Player</Text>
+          <Text style={[s.th, { width: rw[1] }]}>Position</Text>
+          <Text style={[s.th, { width: rw[2] }]}>Age</Text>
+          <Text style={[s.th, { width: rw[3] }]}>Status</Text>
+          <Text style={[s.th, { width: rw[4], textAlign: "right" }]}>%</Text>
+        </View>
+        {summary.roster.length === 0 ? (
+          <Text style={[s.note, { marginTop: 6 }]}>No players in the squad yet.</Text>
+        ) : (
+          summary.roster.map((r, i) => (
+            <View key={i} style={s.row} wrap={false}>
+              <Text style={[s.td, { width: rw[0] }]}>{r.name}</Text>
+              <Text style={[s.td, { width: rw[1] }]}>{r.position}</Text>
+              <Text style={[s.td, { width: rw[2] }]}>{r.ageBand}</Text>
+              <Text style={[s.td, { width: rw[3] }]}>{r.status}</Text>
+              <Text style={[s.td, { width: rw[4], textAlign: "right" }]}>{r.completeness}</Text>
+            </View>
+          ))
+        )}
+
+        <Footer text="Talent Bridge Africa — academy summary. Operational overview, consent-based; not an official registration document." />
       </Page>
     </Document>
   );
