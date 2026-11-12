@@ -43,7 +43,7 @@ export default async function PlayerOverview() {
             </div>
             <ScaffoldNote>
               Players maintain public, consented fields. Date of birth and documents are restricted
-              and never shown on recruiter-facing profiles (§2, §12).
+              and never shown on recruiter-facing profiles.
             </ScaffoldNote>
           </CardBody>
         </Card>
@@ -77,7 +77,7 @@ export default async function PlayerOverview() {
             </div>
             <ScaffoldNote>
               Private by default. Every external share records a lawful basis and consent version
-              that can be withdrawn (§5 M03).
+              that can be withdrawn.
             </ScaffoldNote>
           </CardBody>
         </Card>

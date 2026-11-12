@@ -41,7 +41,7 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
     (m) => m.role === "academy_staff" && m.organisationId === player.primary_academy_id,
   );
   const canEdit = isStaff || isSelf || isAcademyStaff;
-  const canViewSensitive = canEdit; // staff / own academy / self (§2)
+  const canViewSensitive = canEdit; // staff / own academy / self
 
   const [consents, plans, verifications, registrations, associations, scorecard] = await Promise.all([
     listConsents(player.id),
@@ -208,8 +208,7 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
             </dl>
             {!canViewSensitive ? (
               <p className="mt-4 text-xs text-navy-400">
-                Date of birth, nationality and documents are restricted and not shown on this view
-                (§2, §12).
+                Date of birth, nationality and documents are restricted and not shown on this view.
               </p>
             ) : null}
           </CardBody>
@@ -219,7 +218,7 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
         <Card>
           <CardHeader
             title="Development"
-            subtitle="Plans and review dates (§5 M07)"
+            subtitle="Plans and review dates"
             action={
               <Link
                 href={`/players/${player.id}/development`}
@@ -245,19 +244,19 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
               </ul>
             ) : (
               <p className="text-sm text-navy-400">
-                No development plan yet. Progress is shown over time, not a single score (§5A G).
+                No development plan yet. Progress is shown over time, not a single score.
               </p>
             )}
           </CardBody>
         </Card>
       </div>
 
-      {/* Videos & media (§5 M06) */}
+      {/* Videos & media */}
       <div className="mt-6">
         <Card>
           <CardHeader
             title="Videos & media"
-            subtitle="Authorised match footage (§5 M06)"
+            subtitle="Authorised match footage"
             action={
               <Link
                 href={`/players/${player.id}/media`}
@@ -269,12 +268,12 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
           />
           <CardBody className="text-sm text-navy-500">
             Link footage from a camera or video provider. Private by default; shared/public needs
-            recorded consent (§2).
+            recorded consent.
           </CardBody>
         </Card>
       </div>
 
-      {/* Registration & FIFA passport (§FIFA RSTP / EPP) */}
+      {/* Registration & FIFA passport */}
       <div className="mt-6">
         <Card>
           <CardHeader
@@ -321,7 +320,7 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
         <Card>
           <CardHeader
             title="Consent & privacy"
-            subtitle="Lawful basis for every external share (§5 M03)"
+            subtitle="Lawful basis for every external share"
           />
           <CardBody>
             <ConsentManager playerId={player.id} consents={consents} canManage={canEdit} />
@@ -329,13 +328,13 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
         </Card>
       </div>
 
-      {/* Verification (staff only, §5 M08, §12) */}
+      {/* Verification (staff only) */}
       {isStaff ? (
         <div className="mt-6">
           <Card>
             <CardHeader
               title="Verification"
-              subtitle="Evidence of identity, age and registration (§5 M08)"
+              subtitle="Evidence of identity, age and registration"
             />
             <CardBody>
               {verifications.length === 0 ? (

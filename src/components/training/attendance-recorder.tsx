@@ -9,7 +9,7 @@ export interface SquadPlayer {
 }
 
 /**
- * Per-player attendance + a quick observation (§5A E). Each control is its own
+ * Per-player attendance + a quick observation. Each control is its own
  * server-action form, so it posts independently without client state.
  */
 export function AttendanceRecorder({

@@ -32,8 +32,7 @@ export function ReviewPanel({ reportId }: { reportId: string }) {
         </Button>
       </div>
       <p className="text-xs text-navy-400">
-        Approval updates the player&apos;s assessment history. It does not mark the player verified
-        (§9).
+        Approval updates the player&apos;s assessment history. It does not mark the player verified.
       </p>
     </form>
   );

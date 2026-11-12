@@ -1,6 +1,6 @@
 import type { Bar } from "@/lib/analytics/queries";
 
-/** Simple horizontal bar list for distributions (§5 M12). Accessible, no chart lib. */
+/** Simple horizontal bar list for distributions. Accessible, no chart lib. */
 export function BarList({ data, empty = "No data yet." }: { data: Bar[]; empty?: string }) {
   if (data.length === 0) return <p className="text-sm text-navy-400">{empty}</p>;
   const max = Math.max(...data.map((d) => d.value), 1);

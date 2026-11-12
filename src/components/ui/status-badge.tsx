@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Plain-language status states (§4 Status design).
+ * Plain-language status states.
  * IMPORTANT: "Verified" is NOT green — a green badge must never imply FIFA or
  * transfer approval. Verified uses the neutral navy/teal family instead.
  */
@@ -21,7 +21,7 @@ const STATUS_STYLES: Record<StatusKind, { label: string; className: string }> = 
   draft: { label: "Draft", className: "bg-navy-50 text-navy-600 ring-navy-100" },
   submitted: { label: "Submitted", className: "bg-teal-50 text-lime-700 ring-teal-100" },
   under_review: { label: "Under Review", className: "bg-amber-50 text-amber-600 ring-amber-50" },
-  // Deliberately NOT green (§4): neutral teal/navy, communicates "evidence checked" only.
+  // Deliberately NOT green: neutral teal/navy, communicates "evidence checked" only.
   verified: { label: "Verified", className: "bg-navy text-white ring-navy" },
   needs_evidence: {
     label: "Needs Evidence",

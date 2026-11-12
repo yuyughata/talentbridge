@@ -45,7 +45,7 @@ const ICONS: Record<IconKey, (p: { className?: string }) => ReactNode> = {
 };
 
 /**
- * Shared chrome for an authenticated workspace: brand, workspace nav (§3) and a
+ * Shared chrome for an authenticated workspace: brand, workspace nav and a
  * content area. Auth/role gating is wired in during MVP engineering; this shell
  * is the layout the real pages render into.
  */

@@ -47,7 +47,7 @@ export default async function AdminUsersPage() {
         <Card className="h-fit">
           <CardHeader
             title="Invite someone"
-            subtitle="Invite-first onboarding (§5 M01)"
+            subtitle="Invite-first onboarding"
             icon={<UsersIcon />}
           />
           <CardBody>

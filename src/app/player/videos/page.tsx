@@ -27,7 +27,7 @@ export default async function PlayerVideosPage() {
       activeHref="/player/videos"
       user={{ displayName: ctx.displayName, email: ctx.email }}
     >
-      <PageHeading title="Videos" description="Your authorised footage and media (§5 M06)." />
+      <PageHeading title="Videos" description="Your authorised footage and media." />
       {!playerId ? (
         <Card>
           <CardBody>

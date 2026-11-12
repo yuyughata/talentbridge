@@ -7,7 +7,7 @@ import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { GaugeIcon } from "@/components/ui/icons";
 
 /**
- * Renders the live seven-category weighting model (§6) straight from the
+ * Renders the live seven-category weighting model straight from the
  * scoring config, so the UI and the engine can never drift apart.
  */
 export function ScorecardModelPreview() {
@@ -50,7 +50,7 @@ export function ScorecardModelPreview() {
         </ul>
         <p className="mt-4 text-xs leading-relaxed text-navy-400">
           A weighted score is a screening aid, not objective truth or a FIFA rating. Read alongside
-          position, competition level, age, match context and number of observations (§6).
+          position, competition level, age, match context and number of observations.
         </p>
       </CardBody>
     </Card>

@@ -22,7 +22,7 @@ export default async function AcademyDevelopmentPage() {
     >
       <PageHeading
         title="Player Development"
-        description="Build your development curriculum module-by-module, by age band (§5A A)."
+        description="Build your development curriculum module-by-module, by age band."
       />
 
       {!academy ? (

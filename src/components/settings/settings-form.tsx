@@ -215,7 +215,7 @@ export function SettingsForm({
 
       <Section
         title="Governance & safeguarding"
-        description="Protections for minors and personal data (§FIFA RSTP, child safeguarding)."
+        description="Protections for minors and personal data (child safeguarding)."
       >
         <div className="grid gap-4 sm:grid-cols-2">
           <Text

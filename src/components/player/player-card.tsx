@@ -18,7 +18,7 @@ export interface PlayerCardData {
 }
 
 /**
- * Premium scouting player card (§4 Player cards). Portrait monogram, identity,
+ * Premium scouting player card. Portrait monogram, identity,
  * position pill and an optional weighted index. Verification uses a neutral
  * badge — never a green "approved" treatment.
  */

@@ -24,7 +24,7 @@ export default async function PlayerAssessmentsPage() {
         description="Your attribute profile from the latest assessment (a screening aid, not a verdict)."
       />
       <Card>
-        <CardHeader title="Attribute profile" subtitle="Seven weighted categories (§6)" />
+        <CardHeader title="Attribute profile" subtitle="Seven weighted categories" />
         <CardBody>
           {scorecard && scorecard.axes.length > 0 ? (
             <div className="grid gap-6 lg:grid-cols-[320px_1fr] lg:items-center">

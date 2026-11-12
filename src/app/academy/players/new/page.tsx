@@ -19,7 +19,7 @@ export default async function NewPlayerPage() {
     >
       <PageHeading
         title="Add player"
-        description="Create a player record (§5 M02)."
+        description="Create a player record."
         action={
           <Link
             href="/academy/squad"
@@ -36,8 +36,7 @@ export default async function NewPlayerPage() {
             <PlayerForm action={createPlayer} submitLabel="Create player" />
             <div className="mt-4">
               <ScaffoldNote>
-                Date of birth is restricted PII and never appears on recruiter-facing profiles (§2,
-                §12). Record consent on the player&apos;s profile before any external share.
+                Date of birth is restricted PII and never appears on recruiter-facing profiles. Record consent on the player&apos;s profile before any external share.
               </ScaffoldNote>
             </div>
           </CardBody>

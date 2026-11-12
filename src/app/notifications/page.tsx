@@ -28,7 +28,7 @@ export default async function NotificationsPage() {
     >
       <PageHeading
         title="Notifications"
-        description="Assignments, report reviews and other updates (§5 M13)."
+        description="Assignments, report reviews and other updates."
         action={
           hasUnread ? (
             <form action={markAllNotificationsRead}>

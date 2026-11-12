@@ -19,7 +19,7 @@ export default async function PlayerProfilePage() {
       activeHref="/player/profile"
       user={{ displayName: ctx.displayName, email: ctx.email }}
     >
-      <PageHeading title="My profile" description="Maintain your approved information (§5 M02)." />
+      <PageHeading title="My profile" description="Maintain your approved information." />
 
       {!player ? (
         <Card>
@@ -65,7 +65,7 @@ export default async function PlayerProfilePage() {
           <Card>
             <CardHeader
               title="Consent & privacy"
-              subtitle="You control who can see your profile (§5 M03)"
+              subtitle="You control who can see your profile"
             />
             <CardBody>
               <ConsentManager

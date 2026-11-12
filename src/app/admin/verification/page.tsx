@@ -35,7 +35,7 @@ export default async function VerificationPage() {
     >
       <PageHeading
         title="Verification"
-        description="Identity, age and registration evidence (§5 M08, §12)."
+        description="Identity, age and registration evidence."
       />
 
       <div className="grid gap-5 lg:grid-cols-[380px_1fr]">
@@ -45,7 +45,7 @@ export default async function VerificationPage() {
             <VerificationForm players={playerOptions} />
             <p className="mt-3 text-xs text-navy-400">
               Store only a pointer to the private document, never the file. Verifying evidence does
-              not mark the player profile verified — a human sets that separately (§9).
+              not mark the player profile verified — a human sets that separately.
             </p>
           </CardBody>
         </Card>

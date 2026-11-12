@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Circular meter for the weighted score (0–100). A screening aid, shown with
- * context — never styled as a FIFA/guarantee badge (§6, §4).
+ * context — never styled as a FIFA/guarantee badge.
  */
 export function ScoreRing({
   value,

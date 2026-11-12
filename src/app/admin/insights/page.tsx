@@ -61,7 +61,7 @@ export default async function InsightsPage() {
     >
       <PageHeading
         title="Player insights"
-        description="Trends and growth across players — computed from assessment history (§5 M12)."
+        description="Trends and growth across players — computed from assessment history."
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

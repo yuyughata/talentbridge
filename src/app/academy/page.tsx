@@ -59,7 +59,7 @@ export default async function AcademyOverview() {
         <Card>
           <CardHeader
             title="This week's microcycle"
-            subtitle="Age band 13–15 · editable template, not a fixed schedule (§5A B)"
+            subtitle="Age band 13–15 · editable template, not a fixed schedule"
             icon={<CalendarIcon />}
           />
           <CardBody>
@@ -90,7 +90,7 @@ export default async function AcademyOverview() {
           <CardBody>
             <ScaffoldNote>
               Session templates are editable, not hard-coded. Age bands are planning guides adapted
-              to maturity, schedule and recovery (§5A A/B).
+              to maturity, schedule and recovery.
             </ScaffoldNote>
           </CardBody>
         </Card>
@@ -103,7 +103,7 @@ export default async function AcademyOverview() {
           <CardBody>
             <ScaffoldNote>
               Show progress over time, not a single headline score. Welfare notes stay restricted
-              and are never shared with recruiters (§5A G/H/I).
+              and are never shared with recruiters.
             </ScaffoldNote>
           </CardBody>
         </Card>

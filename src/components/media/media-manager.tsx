@@ -151,7 +151,7 @@ export function MediaManager({
           <SubmitButton>Add media</SubmitButton>
           <p className="text-xs text-navy-400">
             Large video stays with the provider. Shared or public media needs a recorded consent as
-            its lawful basis (§2, §5 M06).
+            its lawful basis.
           </p>
         </form>
       ) : null}

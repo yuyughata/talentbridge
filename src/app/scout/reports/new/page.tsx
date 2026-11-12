@@ -28,7 +28,7 @@ export default async function NewReportPage({
     >
       <PageHeading
         title="New match report"
-        description="Structured scorecard including Speed (§6)."
+        description="Structured scorecard including Speed."
         action={
           <Link
             href="/scout/reports"
