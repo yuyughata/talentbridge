@@ -1,17 +1,18 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+const PROTECTED_PREFIXES = ["/player", "/scout", "/academy", "/recruiter", "/admin"];
+
 /**
- * Refreshes the Supabase auth session on each request and keeps cookies in sync
- * (standard @supabase/ssr pattern). Route-level role gating is added on top of
- * this during MVP engineering; RLS remains the real access boundary (§7).
+ * Refreshes the Supabase auth session on each request (standard @supabase/ssr
+ * pattern) and gates the authenticated workspaces. Fine-grained role checks live
+ * in each workspace (requireWorkspace); RLS remains the real access boundary (§7).
  */
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  // If Supabase isn't configured yet (e.g. first local run), skip gracefully.
   if (!url || !key) return response;
 
   const supabase = createServerClient(url, key, {
@@ -29,7 +30,20 @@ export async function middleware(request: NextRequest) {
     },
   });
 
-  await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const path = request.nextUrl.pathname;
+  const isProtected = PROTECTED_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`));
+
+  if (isProtected && !user) {
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = "/login";
+    loginUrl.search = `?next=${encodeURIComponent(path)}`;
+    return NextResponse.redirect(loginUrl);
+  }
+
   return response;
 }
 

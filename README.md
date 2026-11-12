@@ -36,6 +36,7 @@ See [`docs/`](./docs) for the full specification derived from the blueprint:
 - [06 — Security, privacy & governance](./docs/06-security-and-governance.md)
 - [07 — Product language guardrails](./docs/07-product-language.md)
 - [08 — Academy training & development module](./docs/08-development-module.md)
+- [09 — Authentication & invitation onboarding](./docs/09-auth-and-onboarding.md)
 
 ---
 
@@ -127,12 +128,17 @@ language.
 ## Project status & next steps
 
 The foundation (schema, RLS, scoring engine, roles, build pipeline, workspace shells) is complete
-and verified. The MVP build order (§14, §10) picks up from here:
+and verified, the Supabase project is provisioned, and **authentication + invitation onboarding is
+built** (see [docs/09](./docs/09-auth-and-onboarding.md)). The MVP build order (§14, §10) continues:
 
-1. Wire Supabase Auth + invitation flows and route-level role gating.
+1. ~~Supabase Auth + invitation flows + route-level gating~~ — **done**.
 2. Player registry CRUD + consent capture.
 3. Scouting assignment + mobile scouting report writing to `scouting_reports` / `scorecard_ratings`.
 4. Reviewer queue (approve / return with comments).
 5. Admin dashboard queries for the KPI strip.
+
+> **Before first use:** set `SUPABASE_SERVICE_ROLE_KEY` (for invitation accept), configure Supabase
+> Auth Site URL + email provider, and bootstrap the first `super_admin`
+> (see [docs/09](./docs/09-auth-and-onboarding.md)).
 
 Track detailed acceptance criteria in [`docs/05-mvp-and-roadmap.md`](./docs/05-mvp-and-roadmap.md).

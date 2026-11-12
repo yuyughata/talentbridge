@@ -99,10 +99,55 @@ These are hypotheses to adjust after observing real behaviour, not guaranteed ou
 
 ## Immediate engineering next steps
 
-1. Wire Supabase Auth + invitation flows; add route-level role gating on the `/player`, `/scout`,
-   `/academy`, `/recruiter`, `/admin` groups.
-2. Player registry CRUD + consent capture (M02, M03).
-3. Scouting assignment + mobile scouting report form writing to `scouting_reports`,
-   `scorecard_ratings`, `speed_subscores`; compute `weighted_score` via `calculateWeightedScore`.
-4. Reviewer queue (approve / return with comments) (M05, §9).
-5. Admin KPI strip queries; audit logging on sensitive reads/writes.
+1. ~~Supabase Auth + invitation flows + route-level role gating~~ — **done** (docs/09).
+2. ~~Player registry CRUD + consent capture (M02, M03)~~ — **done**:
+   - `src/lib/players` (constants, queries, create/update actions, completeness) and
+     `src/lib/consent` (record/withdraw).
+   - Academy squad list + add player; cross-workspace player profile at `/players/[id]`
+     (overview, development, consent, edit, submit-for-review); player self-profile at
+     `/player/profile`; scout / admin / recruiter lists wired to RLS-scoped queries.
+   - Restricted PII (DOB, nationality) hidden from non-authorised views (§2); consent capture
+     records a lawful basis before any external share (§5 M03).
+3. ~~Scouting report form + scorecard (M05)~~ — **done**:
+   - `src/lib/scouting` (queries + actions). `createReport` writes `scouting_reports`,
+     `scorecard_ratings` (with weight snapshots), `speed_subscores` and an optional `matches`
+     row, and stores `weighted_score` from `calculateWeightedScore`.
+   - `/scout/reports` (list), `/scout/reports/new` (seven weighted categories + Speed sub-scores
+     + match context + evidence), `/scout/reports/[id]` (radar + score + evidence).
+4. ~~Reviewer queue (approve / return / reject with comments)~~ — **done**: `/admin/review`
+   queue + a reviewer panel on the report view; approval updates history but never auto-verifies
+   the player (§9).
+5. ~~Scouting assignments (M04)~~ — **done**: `src/lib/assignments`. TBA staff create assignments
+   (scout + target player/position + objective + fixture + due date) at `/admin/assignments`;
+   scouts see their list at `/scout/assignments`, mark in-progress, and **start a report from an
+   assignment** (the report form prefills the player and stores `assignment_id`; submitting a
+   report advances the assignment).
+6. ~~Audit logging (M14)~~ — **done**: `logAudit` helper wired into report review, consent
+   record/withdraw, player status and assignment creation; append-only `/admin/audit` viewer.
+7. ~~Notifications (M13)~~ — **done**: `notifyUser` (service-role, best-effort) on report review
+   and assignment creation; `/notifications` page + header bell with unread badge. Email delivery
+   layers a transactional provider on top of these rows (§7).
+8. ~~Player development & academy training (M07 / §5A)~~ — **done**:
+   - IDPs at `/players/[id]/development`: plans, measurable goals (baseline/target/action/status),
+     and dated 12-week reviews with trends (§5A D/F/G).
+   - Academy training: `/academy/calendar` (plan sessions), `/academy/sessions/[id]` (record
+     attendance + per-player coaching observations, §5A E), `/academy/development` (age-band
+     curriculum reference, §5A A), `/academy/attendance`.
+9. ~~Dashboard live counts~~ — **done**: `src/lib/dashboard/queries` powers the scout, admin and
+   academy KPI strips with real RLS-scoped counts; admin dashboard tiles now link through.
+10. ~~Verification & document control (M08)~~ — **done**: `src/lib/verification`. `/admin/verification`
+    lets TBA staff add records (identity/age/registration/playing-history), set status, track expiry,
+    and store a private document *pointer* (never the file); a staff-only verification section shows
+    on the player profile. Evidence checks never auto-verify the profile (§9); records are staff-only
+    (RLS, §12).
+11. ~~Reporting & analytics (M12)~~ — **done**: `src/lib/analytics`. `/admin/analytics` shows coverage,
+    report pipeline, position distribution, evidence-backed-report rate (§13 target), average profile
+    completeness, training sessions and recruiter enquiries by status.
+12. ~~Video & media library (M06)~~ — **done**: `src/lib/media`. Provider-agnostic "link authorised
+    footage" (XbotGo / Veo / Hudl / YouTube / Mux / …) into `media_assets` (a reference, not the
+    file). Per-player media library at `/players/[id]/media` and player portal `/player/videos`:
+    set visibility (private → internal → shared → public), with **shared/public gated on a recorded
+    consent** (§2); audited. Recruiters only see shared/public media they have access to (RLS).
+13. Remaining finishing: link training sessions to development goals in the UI; richer progress trend
+    charts (§5A G Release 3); re-host path to a dedicated video provider with signed URLs for
+    external shares (docs on video integration); the pre-pilot RLS test suite (§12).

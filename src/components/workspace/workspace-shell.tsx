@@ -1,43 +1,158 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Logo } from "@/components/brand/logo";
-import { WORKSPACES, type WorkspaceNav } from "@/lib/navigation";
+import { signOut } from "@/lib/auth/actions";
+import { unreadNotificationCount } from "@/lib/notifications/queries";
+import { WORKSPACES, type IconKey, type WorkspaceNav } from "@/lib/navigation";
+import {
+  BallIcon,
+  BellIcon,
+  BoltIcon,
+  CalendarIcon,
+  ChartIcon,
+  CheckBadgeIcon,
+  ClipboardIcon,
+  GaugeIcon,
+  GridIcon,
+  LockIcon,
+  SearchIcon,
+  ShieldIcon,
+  TargetIcon,
+  UserIcon,
+  UsersIcon,
+  VideoIcon,
+  WhistleIcon,
+} from "@/components/ui/icons";
+
+const ICONS: Record<IconKey, (p: { className?: string }) => ReactNode> = {
+  grid: GridIcon,
+  ball: BallIcon,
+  user: UserIcon,
+  video: VideoIcon,
+  clipboard: ClipboardIcon,
+  chart: ChartIcon,
+  gauge: GaugeIcon,
+  calendar: CalendarIcon,
+  search: SearchIcon,
+  target: TargetIcon,
+  shield: ShieldIcon,
+  lock: LockIcon,
+  users: UsersIcon,
+  whistle: WhistleIcon,
+  badge: CheckBadgeIcon,
+  bolt: BoltIcon,
+};
 
 /**
  * Shared chrome for an authenticated workspace: brand, workspace nav (§3) and a
  * content area. Auth/role gating is wired in during MVP engineering; this shell
  * is the layout the real pages render into.
  */
-export function WorkspaceShell({
+export async function WorkspaceShell({
   workspace,
   activeHref,
+  user,
   children,
 }: {
   workspace: keyof typeof WORKSPACES;
   activeHref?: string;
+  user?: { displayName: string; email: string; roleLabel?: string };
   children: ReactNode;
 }) {
   const nav: WorkspaceNav = WORKSPACES[workspace];
+  const initials = (user?.displayName ?? "TB")
+    .split(" ")
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+  const unread = user ? await unreadNotificationCount() : 0;
 
   return (
     <div className="min-h-screen bg-canvas">
-      <header className="border-b border-navy-100 bg-surface">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-ink-900/85 backdrop-blur">
         <div className="container-page flex h-16 items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <Link href="/">
-              <Logo />
+              <Logo dark />
             </Link>
-            <span className="hidden text-sm font-medium text-navy-600 sm:inline">
-              / {nav.title}
+            <span className="hidden rounded-full bg-white/10 px-2.5 py-1 text-xs font-medium text-white/70 sm:inline">
+              {nav.title}
             </span>
+          </div>
+          <div className="flex items-center gap-3">
+            {user ? (
+              <div className="hidden text-right sm:block">
+                <p className="text-sm font-medium leading-tight text-white">{user.displayName}</p>
+                <p className="text-xs leading-tight text-white/50">
+                  {user.roleLabel ?? user.email}
+                </p>
+              </div>
+            ) : null}
+            {user ? (
+              <Link
+                href="/notifications"
+                aria-label="Notifications"
+                className="relative flex h-9 w-9 items-center justify-center rounded-full text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+              >
+                <BellIcon className="h-5 w-5" />
+                {unread > 0 ? (
+                  <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-lime-500 px-1 text-[10px] font-bold text-ink-900">
+                    {unread > 9 ? "9+" : unread}
+                  </span>
+                ) : null}
+              </Link>
+            ) : null}
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-xs font-semibold text-white ring-1 ring-white/15">
+              {initials}
+            </span>
+            {user ? (
+              <form action={signOut}>
+                <button
+                  type="submit"
+                  className="rounded-lg px-2.5 py-1.5 text-sm font-medium text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+                >
+                  Sign out
+                </button>
+              </form>
+            ) : null}
           </div>
         </div>
       </header>
 
-      <div className="container-page grid gap-8 py-8 lg:grid-cols-[220px_1fr]">
-        <aside>
-          <nav className="space-y-1" aria-label={`${nav.title} navigation`}>
+      {/* mobile workspace nav */}
+      <div className="border-b border-white/10 bg-ink-900 lg:hidden">
+        <nav
+          className="container-page flex gap-1 overflow-x-auto py-2"
+          aria-label={`${nav.title} navigation`}
+        >
+          {nav.items.map((item) => {
+            const Icon = ICONS[item.icon];
+            const active = item.href === activeHref;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                className={
+                  active
+                    ? "flex flex-none items-center gap-1.5 rounded-lg bg-lime-500/15 px-3 py-1.5 text-sm font-semibold text-lime-300"
+                    : "flex flex-none items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-white/60 hover:bg-white/10 hover:text-white"
+                }
+              >
+                <Icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
+
+      <div className="container-page grid gap-8 py-8 lg:grid-cols-[232px_1fr]">
+        <aside className="hidden lg:block">
+          <nav className="sticky top-24 space-y-1" aria-label={`${nav.title} navigation`}>
             {nav.items.map((item) => {
+              const Icon = ICONS[item.icon];
               const active = item.href === activeHref;
               return (
                 <Link
@@ -46,20 +161,18 @@ export function WorkspaceShell({
                   aria-current={active ? "page" : undefined}
                   className={
                     active
-                      ? "block rounded-lg bg-teal-50 px-3 py-2 text-sm font-semibold text-teal-700"
-                      : "block rounded-lg px-3 py-2 text-sm font-medium text-navy-600 hover:bg-navy-50 hover:text-navy"
+                      ? "flex items-center gap-3 rounded-lg bg-lime-500/15 px-3 py-2 text-sm font-semibold text-lime-300 ring-1 ring-inset ring-lime-500/25"
+                      : "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-white/60 transition-colors hover:bg-white/10 hover:text-white"
                   }
                 >
+                  <Icon className={active ? "h-4 w-4 text-lime-300" : "h-4 w-4 text-white/40"} />
                   {item.label}
                 </Link>
               );
             })}
           </nav>
         </aside>
-        <main>
-          <p className="mb-1 text-sm text-navy-600">{nav.purpose}</p>
-          {children}
-        </main>
+        <main className="min-w-0">{children}</main>
       </div>
     </div>
   );
@@ -68,8 +181,29 @@ export function WorkspaceShell({
 /** Small marker used on placeholder screens that are scaffolded but not built. */
 export function ScaffoldNote({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-card border border-dashed border-teal-100 bg-teal-50/40 px-4 py-3 text-sm text-navy-600">
+    <div className="rounded-lg border border-dashed border-amber-300/70 bg-amber-50 px-4 py-3 text-sm text-navy-700">
       {children}
+    </div>
+  );
+}
+
+/** Page header for a workspace screen. */
+export function PageHeading({
+  title,
+  description,
+  action,
+}: {
+  title: string;
+  description?: string;
+  action?: ReactNode;
+}) {
+  return (
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight text-white">{title}</h1>
+        {description ? <p className="mt-1 text-sm text-white/60">{description}</p> : null}
+      </div>
+      {action}
     </div>
   );
 }

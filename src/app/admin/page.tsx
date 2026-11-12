@@ -1,62 +1,114 @@
+import Link from "next/link";
 import { KpiStat } from "@/components/ui/kpi-stat";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
-import { StatusBadge } from "@/components/ui/status-badge";
-import { ScaffoldNote, WorkspaceShell } from "@/components/workspace/workspace-shell";
+import { PageHeading, WorkspaceShell } from "@/components/workspace/workspace-shell";
+import { PlayersGrid } from "@/components/players/players-grid";
+import {
+  UsersIcon,
+  ClipboardIcon,
+  ShieldIcon,
+  CalendarIcon,
+  ArrowUpRightIcon,
+} from "@/components/ui/icons";
+import { requireWorkspace } from "@/lib/auth/session";
+import { adminKpis } from "@/lib/dashboard/queries";
+import { listPlayers } from "@/lib/players/queries";
 
 export const metadata = { title: "Command Centre" };
 
-export default function AdminDashboard() {
-  return (
-    <WorkspaceShell workspace="admin" activeHref="/admin">
-      <h1 className="text-2xl font-semibold text-navy">Command Centre</h1>
+export default async function AdminDashboard() {
+  const ctx = await requireWorkspace("admin");
+  const [kpis, players] = await Promise.all([adminKpis(), listPlayers({ limit: 6 })]);
 
-      {/* Top KPI strip (§4 Operations dashboard). Values are placeholders until wired to queries. */}
-      <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <KpiStat label="New profiles (7d)" value="—" hint="Pending completeness check" />
-        <KpiStat label="Reports due" value="—" hint="Across active assignments" />
-        <KpiStat label="Verification queue" value="—" hint="Identity / age evidence" />
-        <KpiStat label="Active academies" value="—" hint="Partner engagement" />
+  return (
+    <WorkspaceShell
+      workspace="admin"
+      activeHref="/admin"
+      user={{ displayName: ctx.displayName, email: ctx.email }}
+    >
+      <PageHeading
+        title="Command Centre"
+        description="Operate the platform, enforce quality and manage partner relationships."
+        action={
+          <a
+            href="/admin/analytics/pdf"
+            className="text-sm font-medium text-lime-300 hover:text-lime-200"
+          >
+            Operations summary PDF
+          </a>
+        }
+      />
+
+      {/* Top KPI strip (§4 Operations dashboard) — live counts. */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <KpiStat label="New profiles (7d)" value={kpis.newProfiles7d} icon={<UsersIcon />} />
+        <KpiStat
+          label="Reports due"
+          value={kpis.reportsDue}
+          icon={<ClipboardIcon />}
+          hint="awaiting review"
+        />
+        <KpiStat
+          label="Verification queue"
+          value={kpis.verificationQueue}
+          icon={<ShieldIcon />}
+          hint="pending evidence"
+        />
+        <KpiStat label="Active academies" value={kpis.activeAcademies} icon={<CalendarIcon />} />
       </div>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-2">
-        <Card>
-          <CardHeader
-            title="Review queue"
-            subtitle="Submitted scouting reports awaiting a reviewer"
-          />
-          <CardBody className="space-y-3 text-sm text-navy-600">
-            <div className="flex items-center justify-between">
-              <span>Report pipeline</span>
-              <span className="flex gap-2">
-                <StatusBadge status="submitted" />
-                <StatusBadge status="under_review" />
-                <StatusBadge status="approved" />
-              </span>
-            </div>
-            <ScaffoldNote>
-              Wire to <code>scouting_reports</code> filtered by status. Approval updates assessment
-              history but never auto-verifies the player (§9).
-            </ScaffoldNote>
-          </CardBody>
-        </Card>
+      <div className="mt-6 grid gap-5 lg:grid-cols-2">
+        <Link href="/admin/review" className="block">
+          <Card interactive>
+            <CardHeader
+              title="Review queue"
+              subtitle="Submitted reports awaiting a reviewer"
+              icon={<ClipboardIcon />}
+              action={<ArrowUpRightIcon className="h-5 w-5 text-navy-300" />}
+            />
+            <CardBody className="text-sm text-navy-500">
+              {kpis.reportsDue > 0
+                ? `${kpis.reportsDue} report${kpis.reportsDue === 1 ? "" : "s"} to review.`
+                : "Nothing waiting."}{" "}
+              Approval updates assessment history but never auto-verifies the player (§9).
+            </CardBody>
+          </Card>
+        </Link>
 
+        <Link href="/admin/verification" className="block">
+          <Card interactive>
+            <CardHeader
+              title="Verification"
+              subtitle="Human review before a player is marked verified"
+              icon={<ShieldIcon />}
+              action={<ArrowUpRightIcon className="h-5 w-5 text-navy-300" />}
+            />
+            <CardBody className="text-sm text-navy-500">
+              {kpis.verificationQueue > 0
+                ? `${kpis.verificationQueue} record${kpis.verificationQueue === 1 ? "" : "s"} pending.`
+                : "No pending evidence."}{" "}
+              Documents stay in private storage with short-lived signed URLs (§7, §12).
+            </CardBody>
+          </Card>
+        </Link>
+      </div>
+
+      <div className="mt-6">
         <Card>
           <CardHeader
-            title="Verification"
-            subtitle="Human review before a player is marked verified"
+            title="Talent pool"
+            subtitle="Recently assessed players across partner academies"
+            action={
+              <Link
+                href="/admin/talent-pool"
+                className="text-sm font-medium text-amber-700 hover:text-amber-800"
+              >
+                View all
+              </Link>
+            }
           />
-          <CardBody className="space-y-3 text-sm text-navy-600">
-            <div className="flex items-center justify-between">
-              <span>Evidence states</span>
-              <span className="flex gap-2">
-                <StatusBadge status="needs_evidence" />
-                <StatusBadge status="verified" />
-              </span>
-            </div>
-            <ScaffoldNote>
-              Restricted to designated verification staff. Documents stay in private storage with
-              short-lived signed URLs (§7, §12).
-            </ScaffoldNote>
+          <CardBody>
+            <PlayersGrid players={players} />
           </CardBody>
         </Card>
       </div>

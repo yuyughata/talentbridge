@@ -6,12 +6,16 @@
   --color-navy: #102a43;
   --color-teal: #167d8d;
   --color-amber: #e6a23c;
-  --color-canvas: #f7f9fa;
+  --color-canvas: #0a0b0d;
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-canvas text-navy antialiased;
+    @apply bg-canvas text-white antialiased;
     font-feature-settings: "cv11", "ss01";
   }
 
@@ -22,15 +26,66 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* Headings inherit their colour from context: white on the black page,
+     navy inside white cards (the Card root sets text-navy). */
   h1,
   h2,
   h3 {
-    @apply font-semibold tracking-tight text-navy;
+    @apply font-semibold tracking-tight;
+  }
+
+  ::selection {
+    background: rgba(132, 204, 22, 0.28);
   }
 }
 
 @layer components {
   .container-page {
     @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Frosted panel used on dark hero surfaces. */
+  .glass {
+    @apply border border-white/10 bg-white/5 backdrop-blur-sm;
+  }
+
+  /* Eyebrow label above section headings. */
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-lime-400;
+  }
+}
+
+@layer utilities {
+  /* Faint football-pitch line overlay for dark hero surfaces (soccer motif). */
+  .pitch-lines {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  /* Scroll-reveal: hidden until .is-visible is added by the Reveal observer. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-rise-in,
+    .animate-fade-in {
+      animation: none !important;
+    }
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
   }
 }
