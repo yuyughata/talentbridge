@@ -6,6 +6,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { getUserContext } from "@/lib/auth/session";
 import { computeCompleteness, parseList } from "./constants";
+import { getMinorAgeThreshold } from "@/lib/settings/queries";
 import { logAudit } from "@/lib/audit";
 import type { PlayerFormState } from "./types";
 
@@ -33,15 +34,15 @@ const schema = z.object({
   fifaConnectId: z.string().optional(),
 });
 
-function isMinor(dob?: string | null): boolean {
+function isMinor(dob: string | null | undefined, threshold: number): boolean {
   if (!dob) return false;
   const birth = new Date(dob);
   if (Number.isNaN(birth.getTime())) return false;
   const age = (Date.now() - birth.getTime()) / (365.25 * 24 * 3600 * 1000);
-  return age < 18;
+  return age < threshold;
 }
 
-function buildRecord(formData: FormData) {
+async function buildRecord(formData: FormData) {
   const parsed = schema.safeParse({
     displayName: formData.get("displayName"),
     preferredName: formData.get("preferredName") || undefined,
@@ -80,7 +81,7 @@ function buildRecord(formData: FormData) {
     place_of_birth: d.placeOfBirth ?? null,
     country_of_birth: d.countryOfBirth ?? null,
     fifa_connect_id: d.fifaConnectId ?? null,
-    is_minor: isMinor(d.dateOfBirth),
+    is_minor: isMinor(d.dateOfBirth, await getMinorAgeThreshold()),
   };
   return { record };
 }
@@ -93,7 +94,7 @@ export async function createPlayer(
   const ctx = await getUserContext();
   if (!ctx) return { error: "You must be signed in." };
 
-  const built = buildRecord(formData);
+  const built = await buildRecord(formData);
   if ("error" in built) return { error: built.error };
 
   // Resolve the academy: explicit field (admin) or the staff member's academy.
@@ -127,7 +128,7 @@ export async function updatePlayer(
   _prev: PlayerFormState,
   formData: FormData,
 ): Promise<PlayerFormState> {
-  const built = buildRecord(formData);
+  const built = await buildRecord(formData);
   if ("error" in built) return { error: built.error };
 
   const completeness = computeCompleteness(built.record);

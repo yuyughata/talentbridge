@@ -763,6 +763,68 @@ export type Database = {
           },
         ]
       }
+      platform_settings: {
+        Row: {
+          default_confidence: string
+          default_country: string
+          default_timezone: string
+          id: string
+          min_observations: number
+          minor_age_threshold: number
+          platform_name: string
+          require_guardian_consent_for_minors: boolean
+          require_verification_for_active: boolean
+          restrict_pii_to_staff: boolean
+          season_label: string
+          show_score_to_recruiters: boolean
+          support_email: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          default_confidence?: string
+          default_country?: string
+          default_timezone?: string
+          id: string
+          min_observations?: number
+          minor_age_threshold?: number
+          platform_name?: string
+          require_guardian_consent_for_minors?: boolean
+          require_verification_for_active?: boolean
+          restrict_pii_to_staff?: boolean
+          season_label?: string
+          show_score_to_recruiters?: boolean
+          support_email?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          default_confidence?: string
+          default_country?: string
+          default_timezone?: string
+          id?: string
+          min_observations?: number
+          minor_age_threshold?: number
+          platform_name?: string
+          require_guardian_consent_for_minors?: boolean
+          require_verification_for_active?: boolean
+          restrict_pii_to_staff?: boolean
+          season_label?: string
+          show_score_to_recruiters?: boolean
+          support_email?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "platform_settings_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       player_club_history: {
         Row: {
           club_name: string | null
