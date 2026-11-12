@@ -12,6 +12,8 @@ import {
   SPEED_SUBSCORES,
   positionOverlayGroup,
 } from "@/lib/scoring/model";
+import { TranscribableTextarea } from "@/components/ai/transcribable-textarea";
+import type { TranscribeCaps } from "@/lib/ai/types";
 import type { ReportFormState } from "@/lib/scouting/types";
 
 const EMPTY: ReportFormState = {};
@@ -39,10 +41,12 @@ export function ReportForm({
   players,
   defaultPlayerId,
   defaultAssignmentId,
+  transcribe = { image: false, audio: false },
 }: {
   players: { id: string; name: string; position?: string | null }[];
   defaultPlayerId?: string;
   defaultAssignmentId?: string;
+  transcribe?: TranscribeCaps;
 }) {
   const [state, action] = useFormState(createReport, EMPTY);
   const [playerId, setPlayerId] = useState(defaultPlayerId ?? "");
@@ -166,19 +170,22 @@ export function ReportForm({
           subtitle="Distinguish observation from opinion (§1, §6)"
         />
         <CardBody className="space-y-4">
-          <Textarea
+          <TranscribableTextarea
             label="Observed strengths"
             name="strengths"
+            caps={transcribe}
             placeholder="One clear strength with a decisive match action…"
           />
-          <Textarea
+          <TranscribableTextarea
             label="Development areas"
             name="developmentAreas"
+            caps={transcribe}
             placeholder="One clear development area…"
           />
-          <Textarea
+          <TranscribableTextarea
             label="Narrative (optional)"
             name="narrative"
+            caps={transcribe}
             required={false}
             placeholder="Overall read, context, caveats…"
           />
@@ -227,30 +234,5 @@ export function ReportForm({
         guarantee (§6).
       </p>
     </form>
-  );
-}
-
-function Textarea({
-  label,
-  name,
-  placeholder,
-  required = true,
-}: {
-  label: string;
-  name: string;
-  placeholder?: string;
-  required?: boolean;
-}) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 block text-sm font-medium text-navy">{label}</span>
-      <textarea
-        name={name}
-        rows={3}
-        required={required}
-        placeholder={placeholder}
-        className="w-full rounded-lg border border-navy-200 px-3 py-2 text-sm text-navy placeholder:text-navy-300 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
-      />
-    </label>
   );
 }

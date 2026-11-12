@@ -4,9 +4,11 @@ import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { StatusBadge, type StatusKind } from "@/components/ui/status-badge";
 import { PageHeading, WorkspaceShell } from "@/components/workspace/workspace-shell";
 import { AttendanceRecorder } from "@/components/training/attendance-recorder";
+import { SessionNotesForm } from "@/components/training/session-notes-form";
 import { requireWorkspace } from "@/lib/auth/session";
 import { getSession, getSessionAttendance, getSessionObservations } from "@/lib/training/queries";
 import { listPlayers } from "@/lib/players/queries";
+import { transcriptionCapabilities } from "@/lib/ai/transcribe";
 
 export const metadata = { title: "Training session" };
 
@@ -92,6 +94,22 @@ export default async function SessionDetailPage({ params }: { params: { id: stri
                 ))}
               </ul>
             )}
+          </CardBody>
+        </Card>
+      </div>
+
+      <div className="mt-6">
+        <Card>
+          <CardHeader
+            title="Session notes"
+            subtitle="Write it up — or scan a handwritten sheet / dictate (AI transcription)"
+          />
+          <CardBody>
+            <SessionNotesForm
+              sessionId={session.id}
+              defaultValue={session.session_delivered_note}
+              caps={transcriptionCapabilities()}
+            />
           </CardBody>
         </Card>
       </div>

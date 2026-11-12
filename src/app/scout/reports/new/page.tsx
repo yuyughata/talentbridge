@@ -3,6 +3,7 @@ import { PageHeading, WorkspaceShell } from "@/components/workspace/workspace-sh
 import { ReportForm } from "@/components/scouting/report-form";
 import { requireWorkspace } from "@/lib/auth/session";
 import { listPlayers } from "@/lib/players/queries";
+import { transcriptionCapabilities } from "@/lib/ai/transcribe";
 
 export const metadata = { title: "New report" };
 
@@ -42,6 +43,7 @@ export default async function NewReportPage({
           players={options}
           defaultPlayerId={searchParams.playerId}
           defaultAssignmentId={searchParams.assignmentId}
+          transcribe={transcriptionCapabilities()}
         />
       </div>
     </WorkspaceShell>
