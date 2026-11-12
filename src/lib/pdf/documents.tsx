@@ -4,6 +4,7 @@ import { CATEGORY_DEFINITIONS, type ScorecardCategory } from "@/lib/scoring/mode
 import type { PlayerDossier } from "@/lib/passport/dossier";
 import type { FullReport } from "@/lib/scouting/queries";
 import type { PlayerRow } from "@/lib/players/queries";
+import type { AnalyticsData, Bar } from "@/lib/analytics/queries";
 
 const C = {
   band: "#0A1D30",
@@ -252,6 +253,72 @@ export function ProfileDocument({ player, canSeeSensitive }: { player: PlayerRow
           <Field label="Secondary positions" value={(player.secondary_positions ?? []).join(", ") || null} />
         </View>
         <Footer text="Talent Bridge Africa — player profile summary. Private and consent-based; not an official registration document." />
+      </Page>
+    </Document>
+  );
+}
+
+/* ---------------------------------------------------------------- analytics */
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={{ width: "33.33%", marginBottom: 10, paddingRight: 8 }}>
+      <Text style={s.label}>{label}</Text>
+      <Text style={{ fontSize: 20, fontFamily: "Helvetica-Bold", color: C.navy, marginTop: 2 }}>{value}</Text>
+    </View>
+  );
+}
+
+function BarRows({ data }: { data: Bar[] }) {
+  if (data.length === 0) return <Text style={s.note}>No data yet.</Text>;
+  const max = Math.max(...data.map((d) => d.value), 1);
+  return (
+    <View>
+      {data.map((d) => (
+        <View key={d.label} style={{ flexDirection: "row", alignItems: "center", marginBottom: 5 }}>
+          <Text style={{ width: "34%", fontSize: 9, color: C.ink }}>{d.label}</Text>
+          <View style={{ width: "54%", height: 8, backgroundColor: C.soft, borderRadius: 4 }}>
+            <View style={{ width: `${Math.round((d.value / max) * 100)}%`, height: 8, backgroundColor: C.lime, borderRadius: 4 }} />
+          </View>
+          <Text style={{ width: "12%", fontSize: 9, textAlign: "right", fontFamily: "Helvetica-Bold", color: C.ink }}>
+            {d.value}
+          </Text>
+        </View>
+      ))}
+    </View>
+  );
+}
+
+export function AnalyticsDocument({ data, preparedBy }: { data: AnalyticsData; preparedBy: string }) {
+  return (
+    <Document title="Talent Bridge Africa — operations summary">
+      <Page size="A4" style={s.page}>
+        <View style={s.band}>
+          <Text style={s.brand}>TALENT BRIDGE AFRICA</Text>
+          <Text style={s.title}>Operations Summary</Text>
+          <Text style={s.bandSub}>Prepared by {preparedBy} · generated {DATE(new Date().toISOString())}</Text>
+        </View>
+
+        <Text style={s.sectionTitle}>Key figures</Text>
+        <View style={s.grid}>
+          <Stat label="Players" value={String(data.totals.players)} />
+          <Stat label="Reports" value={`${data.totals.reports}  (${data.totals.approvedReports} approved)`} />
+          <Stat label="Academies" value={String(data.totals.academies)} />
+          <Stat label="Avg. profile completeness" value={`${data.avgCompleteness}%`} />
+          <Stat label="Evidence-backed reports" value={`${data.evidenceRate}%`} />
+          <Stat label="Training sessions" value={String(data.sessions)} />
+        </View>
+
+        <Text style={s.sectionTitle}>Position distribution</Text>
+        <BarRows data={data.positionDistribution} />
+
+        <Text style={s.sectionTitle}>Report pipeline (by status)</Text>
+        <BarRows data={data.reportStatus} />
+
+        <Text style={s.sectionTitle}>Recruiter enquiries (by status)</Text>
+        <BarRows data={data.enquiryStatus} />
+
+        <Footer text="Talent Bridge Africa — operations summary (§5 M12). Screening and operational metrics, not a FIFA rating." />
       </Page>
     </Document>
   );

@@ -56,9 +56,12 @@ export what it may see.
 | **NFF registration dossier** | `/players/[id]/dossier/pdf` | Staff · own academy · the player (contains restricted PII) |
 | **Player profile summary** | `/players/[id]/pdf` | Any viewer (restricted PII masked for non-privileged roles) |
 | **Scouting match report** | `/scout/reports/[id]/pdf` | Any role that can view the report (scout/reviewer/admin) |
+| **Operations summary** | `/admin/analytics/pdf` | Admin workspace only (super admin / reviewer) |
 
 Buttons: the player profile has **Profile PDF** and (for staff/academy/self)
-**NFF dossier PDF**; the report page has **Download PDF**.
+**NFF dossier PDF**; the report page and the reviewer/admin **Review Queue**
+rows have **Download PDF / PDF**; the admin **Command Centre** and **Analytics**
+pages have an **Operations summary PDF**.
 
 ## What still needs the NFF
 

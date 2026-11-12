@@ -21,6 +21,14 @@ export default async function AnalyticsPage() {
       <PageHeading
         title="Analytics"
         description="Reporting across coverage, completion and engagement (§5 M12)."
+        action={
+          <a
+            href="/admin/analytics/pdf"
+            className="text-sm font-medium text-lime-300 hover:text-lime-200"
+          >
+            Download PDF
+          </a>
+        }
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

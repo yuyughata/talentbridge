@@ -29,6 +29,14 @@ export default async function AdminDashboard() {
       <PageHeading
         title="Command Centre"
         description="Operate the platform, enforce quality and manage partner relationships."
+        action={
+          <a
+            href="/admin/analytics/pdf"
+            className="text-sm font-medium text-lime-300 hover:text-lime-200"
+          >
+            Operations summary PDF
+          </a>
+        }
       />
 
       {/* Top KPI strip (§4 Operations dashboard) — live counts. */}
