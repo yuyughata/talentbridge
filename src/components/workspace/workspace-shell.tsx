@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Logo } from "@/components/brand/logo";
+import { MobileNav } from "@/components/workspace/mobile-nav";
 import { signOut } from "@/lib/auth/actions";
 import { unreadNotificationCount } from "@/lib/notifications/queries";
 import { WORKSPACES, type IconKey, type WorkspaceNav } from "@/lib/navigation";
@@ -120,33 +121,8 @@ export async function WorkspaceShell({
         </div>
       </header>
 
-      {/* mobile workspace nav */}
-      <div className="border-b border-white/10 bg-ink-900 lg:hidden">
-        <nav
-          className="container-page flex gap-1 overflow-x-auto py-2"
-          aria-label={`${nav.title} navigation`}
-        >
-          {nav.items.map((item) => {
-            const Icon = ICONS[item.icon];
-            const active = item.href === activeHref;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={active ? "page" : undefined}
-                className={
-                  active
-                    ? "flex flex-none items-center gap-1.5 rounded-lg bg-lime-500/15 px-3 py-1.5 text-sm font-semibold text-lime-300"
-                    : "flex flex-none items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-white/60 hover:bg-white/10 hover:text-white"
-                }
-              >
-                <Icon className="h-4 w-4" />
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
+      {/* mobile workspace nav (hamburger drawer) */}
+      <MobileNav title={nav.title} items={nav.items} activeHref={activeHref} />
 
       <div className="container-page grid gap-8 py-8 lg:grid-cols-[232px_1fr]">
         <aside className="hidden lg:block">
