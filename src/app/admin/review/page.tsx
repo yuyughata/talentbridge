@@ -32,10 +32,10 @@ export default async function ReviewQueuePage() {
         <Card>
           <ul className="divide-y divide-navy-100">
             {queue.map((r) => (
-              <li key={r.id}>
+              <li key={r.id} className="flex items-center gap-3 px-5 py-4 hover:bg-navy-50">
                 <Link
                   href={`/scout/reports/${r.id}`}
-                  className="flex items-center justify-between gap-3 px-5 py-4 hover:bg-navy-50"
+                  className="flex min-w-0 flex-1 items-center justify-between gap-4"
                 >
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium text-navy">
@@ -55,6 +55,12 @@ export default async function ReviewQueuePage() {
                     <StatusBadge status={reportBadge(r.status)} />
                   </div>
                 </Link>
+                <a
+                  href={`/scout/reports/${r.id}/pdf`}
+                  className="flex-none text-sm font-medium text-amber-700 hover:text-amber-800"
+                >
+                  PDF
+                </a>
               </li>
             ))}
           </ul>
