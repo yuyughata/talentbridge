@@ -43,7 +43,7 @@ export async function addMedia(_prev: MediaFormState, formData: FormData): Promi
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Invalid media." };
 
   if (EXTERNAL_VISIBILITIES.includes(parsed.data.visibility) && !parsed.data.consentId) {
-    return { error: "Shared or public media needs a recorded consent as its lawful basis (§2)." };
+    return { error: "Shared or public media needs a recorded consent as its lawful basis." };
   }
 
   const supabase = createClient();

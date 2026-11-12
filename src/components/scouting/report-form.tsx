@@ -62,7 +62,7 @@ export function ReportForm({
       <FormMessage error={state.error} message={state.message} />
 
       <Card>
-        <CardHeader title="Match context" subtitle="Required context for a credible report (§6)" />
+        <CardHeader title="Match context" subtitle="Required context for a credible report" />
         <CardBody className="space-y-4">
           <SelectField
             label="Player"
@@ -126,7 +126,7 @@ export function ReportForm({
       </Card>
 
       <Card>
-        <CardHeader title="Scorecard" subtitle="Seven weighted categories, 1–10 (§6)" />
+        <CardHeader title="Scorecard" subtitle="Seven weighted categories, 1–10" />
         <CardBody>
           {SCORECARD_CATEGORIES.map((c) => (
             <RatingRow
@@ -140,7 +140,7 @@ export function ReportForm({
       </Card>
 
       <Card>
-        <CardHeader title="Speed sub-scores" subtitle="Overlay dimensions, 1–10 (§6)" />
+        <CardHeader title="Speed sub-scores" subtitle="Overlay dimensions, 1–10" />
         <CardBody>
           {SPEED_SUBSCORES.map((s) => (
             <RatingRow key={s.key} name={`speed_${s.key}`} label={s.label} />
@@ -151,7 +151,7 @@ export function ReportForm({
       <Card>
         <CardHeader
           title={`Position-specific assessment — ${overlay.label}`}
-          subtitle="Parameters that differ by position, 1–10 (§6 overlays)"
+          subtitle="Parameters that differ by position, 1–10"
         />
         <CardBody>
           <p className="mb-3 rounded-lg border border-amber-100 bg-amber-50 px-3 py-2 text-xs text-navy-700">
@@ -167,7 +167,7 @@ export function ReportForm({
       <Card>
         <CardHeader
           title="Evidence & judgement"
-          subtitle="Distinguish observation from opinion (§1, §6)"
+          subtitle="Distinguish observation from opinion"
         />
         <CardBody className="space-y-4">
           <TranscribableTextarea
@@ -231,7 +231,7 @@ export function ReportForm({
       </div>
       <p className="text-xs text-navy-400">
         A low-confidence report is not a final recommendation. Scores are a screening aid, not a
-        guarantee (§6).
+        guarantee.
       </p>
     </form>
   );

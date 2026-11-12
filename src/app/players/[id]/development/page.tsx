@@ -43,7 +43,7 @@ export default async function PlayerDevelopmentPage({ params }: { params: { id: 
       </div>
       <PageHeading
         title="Development plan"
-        description="Individual development plan and 12-week reviews (§5 M07, §5A)."
+        description="Individual development plan and 12-week reviews."
       />
       <PlanManager playerId={player.id} plans={plans} reviews={reviews} canManage={canManage} />
     </WorkspaceShell>

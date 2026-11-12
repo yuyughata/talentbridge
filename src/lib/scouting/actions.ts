@@ -50,7 +50,7 @@ export async function createReport(
   const strengths = String(formData.get("strengths") ?? "").trim();
   const developmentAreas = String(formData.get("developmentAreas") ?? "").trim();
   if (intent === "submit" && (!strengths || !developmentAreas)) {
-    return { error: "Strengths and development areas are required to submit (§6)." };
+    return { error: "Strengths and development areas are required to submit." };
   }
 
   const ratings = buildRatingSnapshots(ratingMap);

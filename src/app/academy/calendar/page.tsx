@@ -28,7 +28,7 @@ export default async function CalendarPage() {
     >
       <PageHeading
         title="Training Calendar"
-        description="Plan and deliver sessions (§5A B). Templates are editable, not fixed."
+        description="Plan and deliver sessions. Templates are editable, not fixed."
       />
 
       <div className="grid gap-5 lg:grid-cols-[380px_1fr]">

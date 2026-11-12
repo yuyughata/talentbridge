@@ -22,7 +22,7 @@ export default async function PlayerConsentPage() {
         description="You decide what is shared, and with whom. Withdraw at any time."
       />
       <Card>
-        <CardHeader title="Your consent" subtitle="Lawful basis for every external share (§5 M03)" />
+        <CardHeader title="Your consent" subtitle="Lawful basis for every external share" />
         <CardBody>
           {player ? (
             <ConsentManager playerId={player.id} consents={consents} canManage={true} />

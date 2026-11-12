@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Card } from "./card";
 import { TrendUpIcon } from "./icons";
 
-/** KPI tile for the operations dashboard top strip (§4 Suggested key screens). */
+/** KPI tile for the operations dashboard top strip. */
 export function KpiStat({
   label,
   value,

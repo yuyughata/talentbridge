@@ -46,7 +46,7 @@ export default async function SessionDetailPage({ params }: { params: { id: stri
       </div>
       <PageHeading
         title={session.title}
-        description={session.objective ?? "Record attendance and observations (§5A E)."}
+        description={session.objective ?? "Record attendance and observations."}
         action={<StatusBadge status={SESSION_BADGE[session.status] ?? "draft"} />}
       />
 
@@ -73,7 +73,7 @@ export default async function SessionDetailPage({ params }: { params: { id: stri
 
       <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <Card>
-          <CardHeader title="Attendance & observations" subtitle="Per player (§5A E)" />
+          <CardHeader title="Attendance & observations" subtitle="Per player" />
           <CardBody>
             <AttendanceRecorder sessionId={session.id} players={players} present={present} />
           </CardBody>

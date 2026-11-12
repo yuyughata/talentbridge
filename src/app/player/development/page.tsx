@@ -18,7 +18,7 @@ export default async function PlayerDevelopmentPage() {
     >
       <PageHeading
         title="Development plan"
-        description="Your progress over time — shown as a journey, not a single score (§5A)."
+        description="Your progress over time — shown as a journey, not a single score."
       />
       <Card>
         <CardHeader title="Your plans" subtitle="Set with your academy" />

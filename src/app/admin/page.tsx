@@ -39,7 +39,7 @@ export default async function AdminDashboard() {
         }
       />
 
-      {/* Top KPI strip (§4 Operations dashboard) — live counts. */}
+      {/* Top KPI strip — live counts. */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <KpiStat label="New profiles (7d)" value={kpis.newProfiles7d} icon={<UsersIcon />} />
         <KpiStat
@@ -70,7 +70,7 @@ export default async function AdminDashboard() {
               {kpis.reportsDue > 0
                 ? `${kpis.reportsDue} report${kpis.reportsDue === 1 ? "" : "s"} to review.`
                 : "Nothing waiting."}{" "}
-              Approval updates assessment history but never auto-verifies the player (§9).
+              Approval updates assessment history but never auto-verifies the player.
             </CardBody>
           </Card>
         </Link>
@@ -87,7 +87,7 @@ export default async function AdminDashboard() {
               {kpis.verificationQueue > 0
                 ? `${kpis.verificationQueue} record${kpis.verificationQueue === 1 ? "" : "s"} pending.`
                 : "No pending evidence."}{" "}
-              Documents stay in private storage with short-lived signed URLs (§7, §12).
+              Documents stay in private storage with short-lived signed URLs.
             </CardBody>
           </Card>
         </Link>

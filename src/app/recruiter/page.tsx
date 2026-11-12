@@ -63,7 +63,7 @@ export default async function RecruiterDiscovery() {
               </div>
               <ScaffoldNote>
                 Access to a player portfolio is approved by TBA, time-limited and logged. Welfare
-                and internal coaching records are never included (§5 M10, §5A I, §2).
+                and internal coaching records are never included.
               </ScaffoldNote>
             </CardBody>
           </Card>

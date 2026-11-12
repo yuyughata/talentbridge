@@ -20,7 +20,7 @@ export default async function ReviewQueuePage() {
     >
       <PageHeading
         title="Review Queue"
-        description="Submitted reports awaiting a reviewer decision (§9)."
+        description="Submitted reports awaiting a reviewer decision."
       />
       {queue.length === 0 ? (
         <Card>

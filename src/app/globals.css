@@ -19,7 +19,7 @@
     font-feature-settings: "cv11", "ss01";
   }
 
-  /* Tabular numerals for scores and measurements (§4 Typography). */
+  /* Tabular numerals for scores and measurements. */
   .nums,
   td.num,
   .tabular {

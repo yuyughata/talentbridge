@@ -20,7 +20,7 @@ export default async function AnalyticsPage() {
     >
       <PageHeading
         title="Analytics"
-        description="Reporting across coverage, completion and engagement (§5 M12)."
+        description="Reporting across coverage, completion and engagement."
         action={
           <a
             href="/admin/analytics/pdf"
@@ -70,7 +70,7 @@ export default async function AnalyticsPage() {
         <Card>
           <CardHeader
             title="Evidence-backed reports"
-            subtitle="Reports in review with recorded strengths (§13 target ≥90%)"
+            subtitle="Reports in review with recorded strengths"
           />
           <CardBody>
             <div className="flex items-end gap-3">
@@ -87,7 +87,7 @@ export default async function AnalyticsPage() {
         </Card>
 
         <Card>
-          <CardHeader title="Recruiter enquiries" subtitle="By status (§5 M10)" />
+          <CardHeader title="Recruiter enquiries" subtitle="By status" />
           <CardBody>
             <BarList data={a.enquiryStatus} empty="No enquiries yet." />
           </CardBody>

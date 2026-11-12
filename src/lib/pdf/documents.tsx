@@ -221,7 +221,7 @@ export function ReportDocument({ report }: { report: FullReport }) {
           <Text style={s.para}><Text style={{ fontFamily: "Helvetica-Bold" }}>Narrative: </Text>{report.narrative}</Text>
         ) : null}
 
-        <Footer text="Talent Bridge Africa — a structured screening aid, not a FIFA rating or a guarantee. Read with age, level and context (§6)." />
+        <Footer text="Talent Bridge Africa — a structured screening aid, not a FIFA rating or a guarantee. Read with age, level and context." />
       </Page>
     </Document>
   );
@@ -319,7 +319,7 @@ export function AnalyticsDocument({ data, preparedBy }: { data: AnalyticsData; p
         <Text style={s.sectionTitle}>Recruiter enquiries (by status)</Text>
         <BarRows data={data.enquiryStatus} />
 
-        <Footer text="Talent Bridge Africa — operations summary (§5 M12). Screening and operational metrics, not a FIFA rating." />
+        <Footer text="Talent Bridge Africa — operations summary. Screening and operational metrics, not a FIFA rating." />
       </Page>
     </Document>
   );

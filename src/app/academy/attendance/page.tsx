@@ -26,7 +26,7 @@ export default async function AttendancePage() {
     >
       <PageHeading
         title="Attendance"
-        description="Open a session to record attendance and observations (§5A E)."
+        description="Open a session to record attendance and observations."
       />
       {sessions.length === 0 ? (
         <Card>

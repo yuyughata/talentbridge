@@ -17,7 +17,7 @@ export default async function AuditPage() {
     >
       <PageHeading
         title="Audit"
-        description="Append-only trail of sensitive actions (§5 M14, §12)."
+        description="Append-only trail of sensitive actions."
       />
       {logs.length === 0 ? (
         <Card>

@@ -36,7 +36,7 @@ export function PlanManager({
       {plans.length === 0 ? (
         <Card>
           <CardBody className="py-8 text-center text-sm text-navy-400">
-            No development plan yet. Keep current ability separate from rate of improvement (§5A D).
+            No development plan yet. Keep current ability separate from rate of improvement.
           </CardBody>
         </Card>
       ) : (
@@ -48,7 +48,7 @@ export function PlanManager({
       <Card>
         <CardHeader
           title="12-week reviews"
-          subtitle="Progress over time, not a single score (§5A F/G)"
+          subtitle="Progress over time, not a single score"
         />
         <CardBody className="space-y-4">
           {reviews.length > 0 ? (

@@ -168,7 +168,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
           <Card>
             <CardHeader
               title="Position-specific assessment"
-              subtitle="Parameters that differ by position (§6 overlays) — does not change the weighted score"
+              subtitle="Parameters that differ by position — does not change the weighted score"
             />
             <CardBody>
               <table className="w-full text-sm">
@@ -197,7 +197,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
       {canReview ? (
         <div className="mt-6">
           <Card>
-            <CardHeader title="Reviewer decision" subtitle="Approve, return or reject (§9)" />
+            <CardHeader title="Reviewer decision" subtitle="Approve, return or reject" />
             <CardBody>
               <ReviewPanel reportId={report.id} />
             </CardBody>

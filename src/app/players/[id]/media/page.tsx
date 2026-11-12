@@ -49,7 +49,7 @@ export default async function PlayerMediaPage({ params }: { params: { id: string
       </div>
       <PageHeading
         title="Videos & media"
-        description="Authorised match footage and media (§5 M06)."
+        description="Authorised match footage and media."
       />
       <div className="max-w-2xl">
         <MediaManager

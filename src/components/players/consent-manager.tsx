@@ -65,8 +65,7 @@ export function ConsentManager({
         </ul>
       ) : (
         <p className="rounded-lg border border-dashed border-navy-200 px-4 py-6 text-center text-sm text-navy-400">
-          No consent recorded yet. A recorded lawful basis is required before any external share
-          (§2).
+          No consent recorded yet. A recorded lawful basis is required before any external share.
         </p>
       )}
 

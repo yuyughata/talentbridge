@@ -30,7 +30,7 @@ export default async function AdminAssignmentsPage() {
     >
       <PageHeading
         title="Assignments"
-        description="Assign scouts to fixtures and players (§5 M04)."
+        description="Assign scouts to fixtures and players."
       />
 
       <div className="grid gap-5 lg:grid-cols-[400px_1fr]">

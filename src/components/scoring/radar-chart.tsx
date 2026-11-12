@@ -9,7 +9,7 @@ export interface RadarAxis {
 }
 
 /**
- * Accessible attribute radar (§4 "Simple radar chart for attribute profile").
+ * Accessible attribute radar.
  * Single teal series on a muted navy grid, 0–10 scale. No external chart lib.
  */
 export function RadarChart({

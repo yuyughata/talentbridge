@@ -58,7 +58,7 @@ export default async function ScoutDashboard() {
             </div>
             <p className="mt-3 text-xs text-navy-400">
               A weighted index is a screening aid, read alongside position, competition level, age
-              and number of observations (§6).
+              and number of observations.
             </p>
           </CardBody>
         </Card>
@@ -82,7 +82,7 @@ export default async function ScoutDashboard() {
             </div>
             <ScaffoldNote>
               The mobile scouting report captures all seven weighted categories plus Speed
-              sub-scores, with save-as-draft (§4, §10 acceptance criteria).
+              sub-scores, with save-as-draft.
             </ScaffoldNote>
           </CardBody>
         </Card>
