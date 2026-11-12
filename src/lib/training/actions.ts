@@ -56,6 +56,7 @@ export async function createSession(
         : null,
       duration_min: parsed.data.durationMin ?? null,
       intensity_intent: parsed.data.intensityIntent ?? null,
+      drill_video_url: (formData.get("drillVideoUrl") as string)?.trim() || null,
       status: "planned",
     })
     .select("id")

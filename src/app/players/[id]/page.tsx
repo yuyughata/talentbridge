@@ -11,6 +11,9 @@ import { getPlayer, listConsents, listDevelopmentPlans, profileBadge } from "@/l
 import { listPlayerVerifications } from "@/lib/verification/queries";
 import { listRegistrations, listAssociations } from "@/lib/registrations/queries";
 import { RegistrationManager } from "@/components/players/registration-manager";
+import { latestPlayerScorecard } from "@/lib/scouting/queries";
+import { RadarChart } from "@/components/scoring/radar-chart";
+import { ScoreRing } from "@/components/player/score-ring";
 import { verificationBadge, VERIFICATION_TYPE_LABEL } from "@/lib/verification/status";
 import { updatePlayer, setPlayerStatus } from "@/lib/players/actions";
 import { WORKSPACES } from "@/lib/navigation";
@@ -38,12 +41,13 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
   const canEdit = isStaff || isSelf || isAcademyStaff;
   const canViewSensitive = canEdit; // staff / own academy / self (§2)
 
-  const [consents, plans, verifications, registrations, associations] = await Promise.all([
+  const [consents, plans, verifications, registrations, associations, scorecard] = await Promise.all([
     listConsents(player.id),
     listDevelopmentPlans(player.id),
     isStaff ? listPlayerVerifications(player.id) : Promise.resolve([]),
     listRegistrations(player.id),
     canEdit ? listAssociations() : Promise.resolve([]),
+    latestPlayerScorecard(player.id),
   ]);
 
   const initials = (player.preferred_name || player.display_name)
@@ -106,6 +110,60 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
           ) : null}
         </CardBody>
       </Card>
+
+      {/* Performance & analysis */}
+      <div className="mt-6">
+        <Card>
+          <CardHeader
+            title="Performance & analysis"
+            subtitle="Latest scorecard and key stats"
+            action={
+              scorecard ? (
+                <Link
+                  href={`/scout/reports/${scorecard.reportId}`}
+                  className="text-sm font-medium text-amber-700 hover:text-amber-800"
+                >
+                  Open report →
+                </Link>
+              ) : null
+            }
+          />
+          <CardBody>
+            {scorecard && scorecard.axes.length > 0 ? (
+              <div className="grid gap-6 lg:grid-cols-[320px_1fr] lg:items-center">
+                <RadarChart axes={scorecard.axes} size={300} />
+                <div>
+                  <div className="flex items-center gap-4">
+                    {scorecard.weightedScore != null ? (
+                      <ScoreRing value={Number(scorecard.weightedScore)} />
+                    ) : null}
+                    <div>
+                      <p className="text-sm text-navy-500">Weighted index</p>
+                      <p className="nums text-2xl font-semibold text-navy">
+                        {scorecard.weightedScore != null
+                          ? Number(scorecard.weightedScore).toFixed(0)
+                          : "—"}
+                        <span className="text-sm text-navy-400"> / 100</span>
+                      </p>
+                    </div>
+                  </div>
+                  <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
+                    <Field label="Profile completeness" value={`${player.completeness_percent}%`} />
+                    <Field label="Categories rated" value={`${scorecard.ratingCount} / 7`} />
+                    <Field label="Primary position" value={player.primary_position} />
+                    <Field label="Age band" value={ageBandFromDob(player.date_of_birth)} />
+                  </dl>
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-navy-400">
+                No scorecard yet. Once a scout files a report, the attribute profile and weighted
+                index appear here.
+              </p>
+            )}
+          </CardBody>
+        </Card>
+      </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1fr]">
         {/* Overview */}

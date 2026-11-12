@@ -35,6 +35,12 @@ export function SessionForm() {
           placeholder="Moderate"
         />
       </div>
+      <TextField
+        label="Drill video link (optional)"
+        name="drillVideoUrl"
+        required={false}
+        placeholder="https://… training drills (YouTube / Vimeo / drive)"
+      />
       <SubmitButton>Create session</SubmitButton>
     </form>
   );
