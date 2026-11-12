@@ -9,6 +9,8 @@ import { ConsentManager } from "@/components/players/consent-manager";
 import { requireUser } from "@/lib/auth/session";
 import { getPlayer, listConsents, listDevelopmentPlans, profileBadge } from "@/lib/players/queries";
 import { listPlayerVerifications } from "@/lib/verification/queries";
+import { listRegistrations, listAssociations } from "@/lib/registrations/queries";
+import { RegistrationManager } from "@/components/players/registration-manager";
 import { verificationBadge, VERIFICATION_TYPE_LABEL } from "@/lib/verification/status";
 import { updatePlayer, setPlayerStatus } from "@/lib/players/actions";
 import { WORKSPACES } from "@/lib/navigation";
@@ -36,10 +38,12 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
   const canEdit = isStaff || isSelf || isAcademyStaff;
   const canViewSensitive = canEdit; // staff / own academy / self (§2)
 
-  const [consents, plans, verifications] = await Promise.all([
+  const [consents, plans, verifications, registrations, associations] = await Promise.all([
     listConsents(player.id),
     listDevelopmentPlans(player.id),
     isStaff ? listPlayerVerifications(player.id) : Promise.resolve([]),
+    listRegistrations(player.id),
+    canEdit ? listAssociations() : Promise.resolve([]),
   ]);
 
   const initials = (player.preferred_name || player.display_name)
@@ -188,6 +192,48 @@ export default async function PlayerProfilePage({ params }: { params: { id: stri
           <CardBody className="text-sm text-navy-500">
             Link footage from a camera or video provider. Private by default; shared/public needs
             recorded consent (§2).
+          </CardBody>
+        </Card>
+      </div>
+
+      {/* Registration & FIFA passport (§FIFA RSTP / EPP) */}
+      <div className="mt-6">
+        <Card>
+          <CardHeader
+            title="Registration & FIFA passport"
+            subtitle="Registration history for the NFF / FIFA Electronic Player Passport"
+            action={
+              <div className="flex items-center gap-4">
+                <a
+                  href={`/players/${player.id}/pdf`}
+                  className="text-sm font-medium text-amber-700 hover:text-amber-800"
+                >
+                  Profile PDF
+                </a>
+                {canEdit ? (
+                  <a
+                    href={`/players/${player.id}/dossier/pdf`}
+                    className="text-sm font-medium text-amber-700 hover:text-amber-800"
+                  >
+                    NFF dossier PDF
+                  </a>
+                ) : null}
+              </div>
+            }
+          />
+          <CardBody>
+            {canEdit && !player.fifa_connect_id ? (
+              <p className="mb-4 rounded-lg border border-amber-100 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+                No FIFA Connect ID yet — this is assigned by the NFF on registration. Keep the identity
+                fields and registration history complete so the dossier is submission-ready.
+              </p>
+            ) : null}
+            <RegistrationManager
+              playerId={player.id}
+              registrations={registrations}
+              associations={associations}
+              canManage={canEdit}
+            />
           </CardBody>
         </Card>
       </div>

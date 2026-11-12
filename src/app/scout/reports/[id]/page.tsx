@@ -54,13 +54,21 @@ export default async function ReportPage({ params }: { params: { id: string } })
         >
           ← Reports
         </Link>
-        {isAuthor && report.status === "draft" ? (
-          <form action={submitReport.bind(null, report.id)}>
-            <Button size="sm" variant="secondary">
-              Submit for review
-            </Button>
-          </form>
-        ) : null}
+        <div className="flex items-center gap-4">
+          <a
+            href={`/scout/reports/${report.id}/pdf`}
+            className="text-sm font-medium text-lime-300 hover:text-lime-200"
+          >
+            Download PDF
+          </a>
+          {isAuthor && report.status === "draft" ? (
+            <form action={submitReport.bind(null, report.id)}>
+              <Button size="sm" variant="secondary">
+                Submit for review
+              </Button>
+            </form>
+          ) : null}
+        </div>
       </div>
 
       <Card>

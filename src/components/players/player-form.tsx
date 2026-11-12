@@ -44,20 +44,75 @@ export function PlayerForm({
       </div>
 
       {restrictedPii ? (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="space-y-4 rounded-lg border border-navy-100 bg-surface-muted/60 p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-navy-400">
+            Passport identity (restricted) · for FIFA/NFF registration
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <TextField
+              label="Date of birth"
+              name="dateOfBirth"
+              type="date"
+              required={false}
+              defaultValue={player?.date_of_birth ?? ""}
+            />
+            <TextField
+              label="Nationality"
+              name="nationality"
+              required={false}
+              defaultValue={player?.nationality ?? ""}
+              placeholder="Nigerian"
+            />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <TextField
+              label="Legal first name"
+              name="legalFirstName"
+              required={false}
+              defaultValue={player?.legal_first_name ?? ""}
+              placeholder="As on passport"
+            />
+            <TextField
+              label="Legal last name"
+              name="legalLastName"
+              required={false}
+              defaultValue={player?.legal_last_name ?? ""}
+              placeholder="As on passport"
+            />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <SelectField
+              label="Gender"
+              name="gender"
+              defaultValue={player?.gender ?? ""}
+              options={[
+                { value: "", label: "— Select —" },
+                { value: "male", label: "Male" },
+                { value: "female", label: "Female" },
+                { value: "other", label: "Other" },
+              ]}
+            />
+            <TextField
+              label="Place of birth"
+              name="placeOfBirth"
+              required={false}
+              defaultValue={player?.place_of_birth ?? ""}
+              placeholder="Lagos"
+            />
+            <TextField
+              label="Country of birth"
+              name="countryOfBirth"
+              required={false}
+              defaultValue={player?.country_of_birth ?? ""}
+              placeholder="Nigeria"
+            />
+          </div>
           <TextField
-            label="Date of birth (restricted)"
-            name="dateOfBirth"
-            type="date"
+            label="FIFA Connect ID"
+            name="fifaConnectId"
             required={false}
-            defaultValue={player?.date_of_birth ?? ""}
-          />
-          <TextField
-            label="Nationality"
-            name="nationality"
-            required={false}
-            defaultValue={player?.nationality ?? ""}
-            placeholder="Nigerian"
+            defaultValue={player?.fifa_connect_id ?? ""}
+            placeholder="Assigned by the NFF — leave blank until registered"
           />
         </div>
       ) : null}

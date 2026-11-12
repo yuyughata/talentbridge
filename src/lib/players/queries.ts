@@ -22,6 +22,12 @@ export interface PlayerRow {
   primary_academy_id: string | null;
   user_id: string | null;
   portrait_url: string | null;
+  fifa_connect_id: string | null;
+  gender: string | null;
+  legal_first_name: string | null;
+  legal_last_name: string | null;
+  place_of_birth: string | null;
+  country_of_birth: string | null;
   updated_at: string;
   academy_name?: string | null;
 }
@@ -43,7 +49,9 @@ export function profileBadge(status: string): StatusKind {
 const SELECT =
   "id, display_name, preferred_name, date_of_birth, nationality, primary_position, " +
   "secondary_positions, dominant_foot, height_cm, location, languages, profile_status, " +
-  "is_minor, completeness_percent, primary_academy_id, user_id, portrait_url, updated_at, organisations(name)";
+  "is_minor, completeness_percent, primary_academy_id, user_id, portrait_url, " +
+  "fifa_connect_id, gender, legal_first_name, legal_last_name, place_of_birth, country_of_birth, " +
+  "updated_at, organisations(name)";
 
 function normalise(row: Record<string, unknown>): PlayerRow {
   const org = row.organisations as { name: string | null } | { name: string | null }[] | null;

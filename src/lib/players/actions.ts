@@ -24,6 +24,13 @@ const schema = z.object({
     .optional()
     .or(z.literal("").transform(() => undefined)),
   location: z.string().optional(),
+  // FIFA passport / EPP identity fields (§FIFA RSTP).
+  gender: z.enum(["male", "female", "other"]).optional().or(z.literal("").transform(() => undefined)),
+  legalFirstName: z.string().optional(),
+  legalLastName: z.string().optional(),
+  placeOfBirth: z.string().optional(),
+  countryOfBirth: z.string().optional(),
+  fifaConnectId: z.string().optional(),
 });
 
 function isMinor(dob?: string | null): boolean {
@@ -44,6 +51,12 @@ function buildRecord(formData: FormData) {
     dominantFoot: formData.get("dominantFoot") || undefined,
     heightCm: formData.get("heightCm") ?? "",
     location: formData.get("location") || undefined,
+    gender: formData.get("gender") || undefined,
+    legalFirstName: formData.get("legalFirstName") || undefined,
+    legalLastName: formData.get("legalLastName") || undefined,
+    placeOfBirth: formData.get("placeOfBirth") || undefined,
+    countryOfBirth: formData.get("countryOfBirth") || undefined,
+    fifaConnectId: formData.get("fifaConnectId") || undefined,
   });
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? ("Invalid details." as string) };
@@ -61,6 +74,12 @@ function buildRecord(formData: FormData) {
     location: d.location ?? null,
     languages: parseList(formData.get("languages")),
     portrait_url: (formData.get("portraitUrl") as string)?.trim() || null,
+    gender: d.gender ?? null,
+    legal_first_name: d.legalFirstName ?? null,
+    legal_last_name: d.legalLastName ?? null,
+    place_of_birth: d.placeOfBirth ?? null,
+    country_of_birth: d.countryOfBirth ?? null,
+    fifa_connect_id: d.fifaConnectId ?? null,
     is_minor: isMinor(d.dateOfBirth),
   };
   return { record };
