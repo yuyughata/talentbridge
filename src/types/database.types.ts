@@ -85,6 +85,63 @@ export type Database = {
           },
         ]
       }
+      curriculum_modules: {
+        Row: {
+          academy_id: string
+          age_band: Database["public"]["Enums"]["age_band"]
+          created_at: string
+          created_by: string | null
+          detail: string | null
+          focus: string | null
+          id: string
+          position: number
+          title: string
+          updated_at: string
+          video_url: string | null
+        }
+        Insert: {
+          academy_id: string
+          age_band: Database["public"]["Enums"]["age_band"]
+          created_at?: string
+          created_by?: string | null
+          detail?: string | null
+          focus?: string | null
+          id?: string
+          position?: number
+          title: string
+          updated_at?: string
+          video_url?: string | null
+        }
+        Update: {
+          academy_id?: string
+          age_band?: Database["public"]["Enums"]["age_band"]
+          created_at?: string
+          created_by?: string | null
+          detail?: string | null
+          focus?: string | null
+          id?: string
+          position?: number
+          title?: string
+          updated_at?: string
+          video_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "curriculum_modules_academy_id_fkey"
+            columns: ["academy_id"]
+            isOneToOne: false
+            referencedRelation: "organisations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "curriculum_modules_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       curriculum_templates: {
         Row: {
           academy_id: string | null
@@ -1840,6 +1897,7 @@ export type Database = {
           academy_id: string
           coach_user_id: string | null
           created_at: string
+          drill_video_url: string | null
           duration_min: number | null
           equipment: string | null
           id: string
@@ -1858,6 +1916,7 @@ export type Database = {
           academy_id: string
           coach_user_id?: string | null
           created_at?: string
+          drill_video_url?: string | null
           duration_min?: number | null
           equipment?: string | null
           id?: string
@@ -1876,6 +1935,7 @@ export type Database = {
           academy_id?: string
           coach_user_id?: string | null
           created_at?: string
+          drill_video_url?: string | null
           duration_min?: number | null
           equipment?: string | null
           id?: string

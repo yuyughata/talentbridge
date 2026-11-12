@@ -1,6 +1,52 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
-import type { ScorecardCategory } from "@/lib/scoring/model";
+import { CATEGORY_DEFINITIONS, type ScorecardCategory } from "@/lib/scoring/model";
+import type { RadarAxis } from "@/components/scoring/radar-chart";
+
+const CATEGORY_SHORT: Record<ScorecardCategory, string> = {
+  technical: "TEC",
+  tactical: "TAC",
+  physical: "PHY",
+  speed: "SPD",
+  decision_making: "DEC",
+  mental: "MEN",
+  consistency: "CON",
+};
+
+export interface PlayerScorecard {
+  reportId: string;
+  weightedScore: number | null;
+  axes: RadarAxis[];
+  ratingCount: number;
+}
+
+/** The player's most recent scorecard (any status), as radar axes + score. */
+export async function latestPlayerScorecard(playerId: string): Promise<PlayerScorecard | null> {
+  const supabase = createClient();
+  const { data: rep } = await supabase
+    .from("scouting_reports")
+    .select("id, weighted_score")
+    .eq("player_id", playerId)
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (!rep) return null;
+  const r = rep as { id: string; weighted_score: number | null };
+
+  const { data: ratings } = await supabase
+    .from("scorecard_ratings")
+    .select("category, rating_1_to_10")
+    .eq("report_id", r.id);
+  const rows = (ratings as { category: ScorecardCategory; rating_1_to_10: number }[] | null) ?? [];
+
+  const axes: RadarAxis[] = rows.map((row) => ({
+    label: CATEGORY_DEFINITIONS[row.category].label.split(" — ")[0] ?? row.category,
+    short: CATEGORY_SHORT[row.category] ?? row.category,
+    value: row.rating_1_to_10,
+  }));
+
+  return { reportId: r.id, weightedScore: r.weighted_score, axes, ratingCount: rows.length };
+}
 
 export interface ReportListRow {
   id: string;

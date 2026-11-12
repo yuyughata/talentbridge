@@ -48,6 +48,27 @@ export default async function SessionDetailPage({ params }: { params: { id: stri
         action={<StatusBadge status={SESSION_BADGE[session.status] ?? "draft"} />}
       />
 
+      {session.drill_video_url ? (
+        <div className="mb-6">
+          <Card>
+            <CardBody className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold text-navy">Training drills</p>
+                <p className="text-xs text-navy-400">Video reference for this session’s drills</p>
+              </div>
+              <a
+                href={session.drill_video_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg bg-navy px-3.5 py-2 text-sm font-medium text-white hover:bg-navy-700"
+              >
+                Watch drill video ↗
+              </a>
+            </CardBody>
+          </Card>
+        </div>
+      ) : null}
+
       <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <Card>
           <CardHeader title="Attendance & observations" subtitle="Per player (§5A E)" />
